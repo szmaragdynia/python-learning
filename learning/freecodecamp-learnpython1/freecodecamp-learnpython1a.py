@@ -50,8 +50,30 @@ print(sqrt(81))
 
 
 
+#----------------z neta 
+for i in range(10):
+    print(i, end='') #bez nowej linii
 
-#story_file = open("story.txt", "r")
-#for lines in story_file.readlines():
+print('.','.','.','.','.','.','.') #normlanie ze spacja
+print('.','.','.','.','.','.','.', sep='') #tutaj bez
 
+koszt = 100
+nazwa = "laleczka"
+print("Nazwa produktu to " + nazwa + " a jego cena to " + str(koszt)) #sklejam stringa i jego jako arg
+print("Nazwa produktu to",nazwa,"a jego cena to",koszt) #nie trzeba spacji. 5 argumentow i one robia stringa
+print("Nazwa produktu to {} a jego cena to {}".format(nazwa, koszt))
+print(f"Nazwa produktu to {nazwa} a jego cena to {koszt}")
+
+#inna rzecz
+
+print("No i patrz na to:", "-separator-".join(["ab","cd","gg","hy"]))
+
+tablica =[]
+for i in range(10):
+    tablica.append(str(i))
+
+print(tablica)
+
+print("No i patrz na to2:", "-separator-".join(tablica))
+#wow ale to jest zajebiste xD
 print("\n\n<-----")

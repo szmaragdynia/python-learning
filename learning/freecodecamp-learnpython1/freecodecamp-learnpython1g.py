@@ -28,4 +28,7 @@ except ZeroDivisionError as err:
 except ValueError as err:
     print(err)
 
+
+#mam cos wiecej w zakldakch, jest jescze blok "finally" ktory sie zawzse odpali, chyba
+
 print("\n\n<-----")

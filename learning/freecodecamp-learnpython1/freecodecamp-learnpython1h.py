@@ -51,4 +51,6 @@ plik = open("learning/freecodecamp-learnpython1/bbb.txt", "a+")
 plik.close()
    
 
+#jet wiecej trybow i roznych dobrych praktyk, ale nie mam juz na to sily ani czasu, jest w zakladkach 
+
 print("\n\n<-----")

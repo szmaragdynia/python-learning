@@ -94,4 +94,27 @@ print(translator("No i co by pies na to powiedział"))
 
 ale podobno lepiej # tymi dziadami xD'''
 
+#----------- z neta cos o petlach wincyh
+
+for x in range (0, 11, 3): # startowa, koncowa, skok. To zwraca 0 3 6 9
+    print(x)
+
+for x in range(6):
+    print(x)
+else:
+    print("finally finished")   #else w FOR! - po wykonaniu petli. 
+                                #Nie wykonuje sie jesli petla przerwana breakiem
+
+for x in range(12):
+    if x == 5:
+        continue #przechodzi do kolejnej iteracji
+    if x == 8:
+        break #wychodzi z petli w ogole
+    print(x)
+else:
+    ("wylozlem z petli - oto for-else")
+print("jestem poza petla!")   
+
+                
+
 print("\n\n<-----")
