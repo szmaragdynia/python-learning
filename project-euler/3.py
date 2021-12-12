@@ -4,14 +4,17 @@ The prime factors of 13195 are 5, 7, 13 and 29.
 What is the largest prime factor of the number 600851475143 ?
 '''
 
+#funkcja dziala tak, ze dajesz jej pusta liste i ona ci do niej dodaje kolejne ilosci liczb
+#pierwszych, nieobecnych na tej liscie
 def generate_primes(output_primes,number_of_new_primes): #tablica do ktorej ci bd zw
     if number_of_new_primes < 1:
         return -1
-    output_primes.append(2)
-    if number_of_new_primes == 1:
-        return output_primes
-    incremented = 1 #to start with 2(!)
+    
     primes_size = len(output_primes)
+    if primes_size == 0:
+        output_primes.append(2)
+    
+    incremented = 1 #to start with 2(!)
     while not (primes_size + number_of_new_primes == len(output_primes)): #do until number_of_new_primes primes are added
         incremented+=1
         #print(f"in while, incremented = {incremented}")
@@ -23,6 +26,7 @@ def generate_primes(output_primes,number_of_new_primes): #tablica do ktorej ci b
             output_primes.append(incremented) # add primes to list
     return output_primes
 
+'''
 primes = []
 generate_primes(primes,1)
 print (primes)
@@ -30,12 +34,6 @@ generate_primes(primes,1)
 print (primes)
 generate_primes(primes,1)
 print (primes)
-'''
-primesss = []
-generate_primes(primesss, 2)
-print(primesss)
-generate_primes(primesss, 2)
-print(primesss)
 '''
 
 
@@ -53,18 +51,17 @@ print(primesss)
 
 #to wszystko co wyzej napisalem jest bez znaczenia, boze. to jest trywialne, i mam to rozwiazanie
 # przed nosem od dawna. zal.pl
-'''
+
 primes = []
-input_number = 20
+input_number = 600851475143
 generate_primes(primes,1)
 while input_number != 1:
-    print("while input number: ", input_number)
-    print("while primes: ", primes)
+    #print("while input number: ", input_number)
+    #print("while primes: ", primes)
     if input_number % primes[-1] == 0: #if what remained is divisible by biggest so far
         input_number = input_number/primes[-1] 
-        print("if after division input number: ", input_number)
+       #print("if after division input number: ", input_number)
     else:
         generate_primes(primes,1) #jesli nie jest podzielny, wygeneruj nowa l. pierwsza i jeszcze raz
-        print("else primes: ",primes)
+        #print("else primes: ",primes)
 print(primes)
-'''
