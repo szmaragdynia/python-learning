@@ -23,9 +23,10 @@ The four adjacent digits in the 1000-digit number that have the greatest product
 71636269561882670428252483600823257530420752963450
 
 Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
-
 '''
+#=========================================================================================================================
 
+n_prod_digits = 13
 input_string = """73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
 85861560789112949495459501737958331952853208805511
@@ -46,6 +47,24 @@ input_string = """73167176531330624919225119674426574742355349194934
 84580156166097919133875499200524063689912560717606
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450 """
-input_string.replace(" ","")
-input_number =Int(input_string)
-input_number
+nonwhitespace_string = input_string.replace("\n","").replace(" ","")
+
+
+#print("CHECK: nonwhitespace_string: ", nonwhitespace_string)
+
+last_possible_start_pos = len(nonwhitespace_string) - n_prod_digits
+#print("CHECK: last_possible_start_pos: ",last_possible_start_pos)
+
+max_product = 1
+
+for i in range(0,last_possible_start_pos+1): #+1 so the last_poss.. is included as well
+    product = 1
+    for j in range(i, i+n_prod_digits):    #from first, second, ..., last_possible_start_pos-th digit to 12 next (13 total)
+       # print("CHECK: nonwhitespace_string[j]:",nonwhitespace_string[j])
+        product *=int(nonwhitespace_string[j])
+        #print("CHECK: for j, product: ")
+    if (product > max_product):
+        max_product = product   
+        #print("CHECK: i = ", i, "j = ",j)    
+print(max_product)
+
