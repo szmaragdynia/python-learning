@@ -24,6 +24,7 @@ def is_palindrome(tekst):
 #brute force way
 start = 999
 stop = 900
+max_palindrome = 0
 for i in range(start, stop-1, -1):
     #print("for i: i =rt",i)
     for j in range(start, stop-1, -1):
