@@ -8,4 +8,5 @@ w ogole utworzenie, more or less:py -3 -m venv .venv
 ".venv\scripts\activate"
 "deactivate" 
 
+lnx: source .venv/bin/activate
 alt+/
