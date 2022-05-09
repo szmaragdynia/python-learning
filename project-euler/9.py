@@ -7,6 +7,24 @@ For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
 There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 Find the eproduct abc.
 '''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#unbelievably ugly code below, beware. Old, rude, bruteforce approach.
+#chociaz czy to serio takie brzydkie? moze po prostu staram sie bardziej general approach miec.
+'''
 import math
 
 a = 0
@@ -70,3 +88,5 @@ def find_special_triplet():
 
 print (find_special_triplet())
 print (find_special_triplet()[0]*find_special_triplet()[1]*find_special_triplet()[2])
+
+'''
