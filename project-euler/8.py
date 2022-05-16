@@ -1,4 +1,5 @@
 '''
+https://projecteuler.net/archives ; id=8
 The four adjacent digits in the 1000-digit number that have the greatest product are 9 × 9 × 8 × 9 = 5832.
 
 73167176531330624919225119674426574742355349194934
@@ -57,7 +58,7 @@ last_possible_start_pos = len(nonwhitespace_string) - n_prod_digits
 
 max_product = 1
 
-for i in range(0,last_possible_start_pos+1): #+1 so the last_poss.. is included as well
+for i in range(0,last_possible_start_pos+1): #+1 so the last_possib... is included as well
     product = 1
     for j in range(i, i+n_prod_digits):    #from first, second, ..., last_possible_start_pos-th digit to 12 next (13 total)
        # print("CHECK: nonwhitespace_string[j]:",nonwhitespace_string[j])

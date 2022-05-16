@@ -1,67 +1,53 @@
 '''
+https://projecteuler.net/archives ; id=3
+
 The prime factors of 13195 are 5, 7, 13 and 29.
 
 What is the largest prime factor of the number 600851475143 ?
 '''
 
-#funkcja dziala tak, ze dajesz jej pusta liste i ona ci do niej dodaje kolejne ilosci liczb
-#pierwszych, nieobecnych na tej liscie
-def generate_primes(output_primes,number_of_new_primes): #tablica do ktorej ci bd zw
+#returning given number of primes. 
+# #If given a list of primes, it will add number_of_new_primes to it. Giving other lists undefined.
+def generate_primes(number_of_new_primes, output_primes = []): 
     if number_of_new_primes < 1:
-        return -1
+        return "Too few primes expected by user"
+
+    output_primes_size = len(output_primes)
+    if output_primes_size == 0:
+        output_primes.append(2) #add first prime number manually
     
-    primes_size = len(output_primes)
-    if primes_size == 0:
-        output_primes.append(2)
-    
-    incremented = 1 #to start with 2(!)
-    while not (primes_size + number_of_new_primes == len(output_primes)): #do until number_of_new_primes primes are added
-        incremented+=1
-        #print(f"in while, incremented = {incremented}")
-        #print(f"primes: {output_primes}")
+    suspected_prime = 2 #to start with 2(!)
+    #do, until number_of_new_primes primes are added
+    while not (output_primes_size + number_of_new_primes == len(output_primes)): 
         for prime in output_primes:
-            if incremented % prime == 0: #if new number is divisible by some prime
+            if suspected_prime % prime == 0: #if new number is divisible by some prime
                 break #leave for loop, and increment again
-        else: #if no known primes divided "incremented" 
-            output_primes.append(incremented) # add primes to list
+        else: #if no known primes divided "incremented" ; executes after the loop completes normally
+            output_primes.append(suspected_prime) # add primes to list
+        suspected_prime+=1
     return output_primes
 
 '''
-primes = []
-generate_primes(primes,1)
+primes = generate_primes(5)
 print (primes)
-generate_primes(primes,1)
-print (primes)
-generate_primes(primes,1)
-print (primes)
+primes2 = generate_primes(3,primes)
+print (primes2)
 '''
 
 
-#finding the biggest factor of a number input_number
-#mialem sprawdzac czy dana liczba pierwsza dzieli mi liczbe,
-# jesli tak to bym podzielil, sprawdzil czy dalej dzieli i podzielil itd
-#no i w sumie wiedzialbym ze ostatnia liczba jest najwieksza, dopiero gdyby kolejna liczba pierwsza 
-#byla wieksza od liczby sprawdzanej - ale ten przeskok moze byc koszmarnie duzy, wiec to podejscie
-#jest debilne xD
-#--
-#lepiej bedzie zbierac liczby ktore dziela moja liczbe sprawdzana i mnozyc je i sprawdzac czy
-#rownaja sie sprawdzanej. Bingo.
-# w sumie mozna by tez moja funkcje zmodyfikowac i dac ograniczenie w parametrach. 
-# I wtedy by bylo prosciej. Ale walic, zmeczony jestem max.
 
-#to wszystko co wyzej napisalem jest bez znaczenia, boze. to jest trywialne, i mam to rozwiazanie
-# przed nosem od dawna. zal.pl
 
+
+#divide by every prime number starting from last element, which in 1-sized array is first. 
+#keep dividing until impossible. Then find new prime number, do the same with it.
+#continue until you divide by all factors. Then, the biggest prime number in prime numbers array is your result.
 primes = []
 input_number = 600851475143
-generate_primes(primes,1)
+generate_primes(1, primes)
 while input_number != 1:
-    #print("while input number: ", input_number)
-    #print("while primes: ", primes)
     if input_number % primes[-1] == 0: #if what remained is divisible by biggest so far
         input_number = input_number/primes[-1] 
-       #print("if after division input number: ", input_number)
     else:
-        generate_primes(primes,1) #jesli nie jest podzielny, wygeneruj nowa l. pierwsza i jeszcze raz
-        #print("else primes: ",primes)
+        generate_primes(1,primes) #jesli nie jest podzielny, wygeneruj nowa l. pierwsza i jeszcze raz
 print(primes)
+
