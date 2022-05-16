@@ -51,21 +51,18 @@ input_string = """73167176531330624919225119674426574742355349194934
 nonwhitespace_string = input_string.replace("\n","").replace(" ","")
 
 
-#print("CHECK: nonwhitespace_string: ", nonwhitespace_string)
 
-last_possible_start_pos = len(nonwhitespace_string) - n_prod_digits
-#print("CHECK: last_possible_start_pos: ",last_possible_start_pos)
+#+1 because you want index to be set at the last possible item 
+#(e.g. 12345, 2 digs -> 4*5. Index needed to be set at 4)
+last_possible_start_pos = len(nonwhitespace_string) - n_prod_digits + 1
 
+#take position, iterate for the next n_prod_digits, product them. Move one digit ahead, iterate again etc.
 max_product = 1
-
-for i in range(0,last_possible_start_pos+1): #+1 so the last_possib... is included as well
-    product = 1
-    for j in range(i, i+n_prod_digits):    #from first, second, ..., last_possible_start_pos-th digit to 12 next (13 total)
-       # print("CHECK: nonwhitespace_string[j]:",nonwhitespace_string[j])
-        product *=int(nonwhitespace_string[j])
-        #print("CHECK: for j, product: ")
-    if (product > max_product):
-        max_product = product   
-        #print("CHECK: i = ", i, "j = ",j)    
+for start_pos in range(0,last_possible_start_pos): 
+    temp_product = 1
+    for digit_in_string in range(start_pos, start_pos+n_prod_digits):
+        temp_product *=int(nonwhitespace_string[digit_in_string])
+    if (temp_product > max_product):
+        max_product = temp_product      
 print(max_product)
 
