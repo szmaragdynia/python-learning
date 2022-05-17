@@ -9,22 +9,9 @@ Find the eproduct abc.
 '''
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #unbelievably ugly code below, beware. Old, rude, bruteforce approach.
 #chociaz czy to serio takie brzydkie? moze po prostu staram sie bardziej general approach miec.
-'''
+
 import math
 
 a = 0
@@ -89,4 +76,3 @@ def find_special_triplet():
 print (find_special_triplet())
 print (find_special_triplet()[0]*find_special_triplet()[1]*find_special_triplet()[2])
 
-'''
