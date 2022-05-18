@@ -5,7 +5,7 @@ The prime factors of 13195 are 5, 7, 13 and 29.
 
 What is the largest prime factor of the number 600851475143 ?
 '''
-
+#todo: recursive? Doubtful, but haven't thought about it yet.
 #returning given number of primes. 
 # #If given a list of primes, it will add number_of_new_primes to it. Giving other lists undefined.
 def generate_primes(number_of_new_primes, output_primes = []): 

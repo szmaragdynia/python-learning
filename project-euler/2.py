@@ -10,7 +10,7 @@ By considering the terms in the Fibonacci sequence whose values
 do not exceed four million, find the sum of the even-valued terms.
 
 '''
-
+#todo: recursive
 def generate_fibonacci(number_of_new_elements, output_sequence = []):
     if len(output_sequence) == 0: 
         output_sequence.append(1) #assume "classic" fibonacci
@@ -36,11 +36,10 @@ print (fib2)
 print (generate_fibonacci(5,fib1))
 '''
 
-
+#todo: while condition change (maybe)
 fib = [1,2]
 evens_sum = 2
 while True:
-    
     fib = generate_fibonacci(1,fib) 
     if fib[-1] > 4000000:
         break

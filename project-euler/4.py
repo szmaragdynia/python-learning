@@ -22,7 +22,7 @@ def is_palindrome(tekst):
     return True        
 
 
-#brute force way
+#todo: recursive?
 start = 999
 stop = 900
 max_palindrome = 0

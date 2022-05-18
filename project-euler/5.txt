@@ -6,6 +6,6 @@ without any remainder.
 What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
 1 to 20: 1, 2, 3, 2*2*, 5, 2*3, 7, 2*2*2*, 3*3, 2*5, 11, 3*2*2, 13, 2*7, 3*5, 2*2*2*2, 17, 3*3*2, 19, 2*2*5
-We need to product all the primes, but not more,  from which we can build any number from 1 to 20.
+We need to product all the primes, but not more,  needed to build any number from 1 to 20.
 [5*2*2]*[19]*[3*3]*17*[2*2]*[-]*[7]*[13]*[-]*[11]*[-]*[-]*[-]*[-]*[-]*[-]*[-]*[-]*[-]*[-]*[]*[]
 product: 232792560
