@@ -42,8 +42,8 @@ kolory.pop()
 print(kolory)
 
 print(kolory.index("zielony"))
-print(kolory.count("sraczkowaty"))
-print(kolory.count("czerwonosraczkowaty"))
+print(kolory.count("badcolor"))
+print(kolory.count("greenybadcolor"))
 
 kolory.sort()
 print(kolory)
