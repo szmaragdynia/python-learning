@@ -10,12 +10,13 @@ By considering the terms in the Fibonacci sequence whose values
 do not exceed four million, find the sum of the even-valued terms.
 
 '''
-#todo: recursive
+#todo: more elegant approach, maybe task-specific
+
 def generate_fibonacci(number_of_new_elements, output_sequence = []):
-    if len(output_sequence) == 0: 
+    if len(output_sequence) == 0 and number_of_new_elements != 0: 
         output_sequence.append(1) #assume "classic" fibonacci
         number_of_new_elements -= 1
-    if len(output_sequence) == 1: 
+    if len(output_sequence) == 1  and number_of_new_elements != 0: 
         output_sequence.append(2) #assume "classic" fibonacci
         number_of_new_elements -= 1
 
@@ -23,26 +24,38 @@ def generate_fibonacci(number_of_new_elements, output_sequence = []):
         output_sequence.append(output_sequence[-1] + output_sequence[-2])
     return output_sequence
 
+#recursive done 4 fun
+#todo: think - is this really done OK?
+def generate_fibonacci_recursive(number_of_new_elements, output_sequence = []):
+    if len(output_sequence) == 0 and number_of_new_elements != 0: 
+        output_sequence.append(1) #assume "classic" fibonacci
+        number_of_new_elements -= 1
+    if len(output_sequence) == 1  and number_of_new_elements != 0:  
+        output_sequence.append(2) #assume "classic" fibonacci
+        number_of_new_elements -= 1
+    
+    if number_of_new_elements != 0:  
+        output_sequence.append(output_sequence[-1] + output_sequence[-2])
+        output_sequence = generate_fibonacci_recursive(number_of_new_elements-1,output_sequence)
+    return output_sequence
 
 '''
-fib1 = generate_fibonacci(5)
+fib1 = generate_fibonacci_recursive(5)
 print (fib1)
 
 #fib2 = generate_fibonacci(5,fib1)
 #apparently created once
-fib2 = generate_fibonacci(5)
+fib2 = generate_fibonacci_recursive(5)
 print (fib2)
 
-print (generate_fibonacci(5,fib1))
+print (generate_fibonacci_recursive(5,fib1))
 '''
 
-#todo: while condition change (maybe)
-fib = [1,2]
-evens_sum = 2
-while True:
+
+fib = generate_fibonacci(1) 
+evens_sum = 0
+while fib[-1] <= 4000000:
     fib = generate_fibonacci(1,fib) 
-    if fib[-1] > 4000000:
-        break
     if fib[-1] % 2 == 0:
         evens_sum += fib[-1]
     print("Next element:",fib)
