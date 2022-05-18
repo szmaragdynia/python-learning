@@ -1,7 +1,7 @@
 print("---->\n\n")
 
-kolory = ["bialy", "Zolty", "zielony", "jakistam", "czerwono" "sraczkowaty", 
-                "czerwony", "sraczkowaty"]
+kolory = ["bialy", "Zolty", "zielony", "jakistam", "czerwono" "zielonkawy", 
+                "czerwony", "zielonkawy"]
 
 print(kolory)
 print(kolory[0])
