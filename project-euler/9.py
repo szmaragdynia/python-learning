@@ -18,7 +18,7 @@ a = 0
 b = 0
 c = 0
 
-#for sake not making things way more calculation heavy than thay has to be, this func is deprecated
+#for sake not making things way more calculation heavy than they has to be, this func is deprecated
 #(Id have to parse through list of triplets and check each if is a+b+c = 1000. This is too pointless even for such simple task)
 def find_triplets(amount): 
     triplet = []
@@ -26,18 +26,18 @@ def find_triplets(amount):
     arbitrary_range_end = 100
     enough = False
     while enough == False:
-        for i in range(1, arbitrary_range_end):
+        for a in range(1, arbitrary_range_end):
             if enough:
                 break
-            for j in range(1, arbitrary_range_end):
+            for b in range(1, arbitrary_range_end):
                 if enough:
                     break
-                if (math.sqrt(i**2 + j**2)).is_integer():
-                    triplet = [i,j, int(math.sqrt(i**2 + j**2))]
+                if (math.sqrt(a**2 + b**2)).is_integer():
+                    triplet = [a,b, int(math.sqrt(a**2 + b**2))]
                     triplets.append(triplet)
                     if len(triplets) == amount:
                         enough = True
-        #if program is here, then it did not find enough triplets or leaves due to break. Wider range then
+        #if program is here, then it did not find enough triplets or it leaves due to break. Wider range then.
         #this is done in a bad manner. Do not do this like that. (pointless re-doing the calculations)
         #but the task is so simple I do not care
         if not enough:
