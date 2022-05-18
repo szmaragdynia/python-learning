@@ -37,8 +37,7 @@ for i in range(start, stop-1, -1):
 print(max_palindrome)
 
 
-#mialem zrobic tak, zeby bylo wydajniej czy cos, ale zrbilem brute force i w sumie
-# nawet nie poczulem ze sie program wykonuje, wiec lol, olewam xD
+#first ideas, maybe more opeartion heavy. Abandoned.
     #this does this(more-or-less):
     #number1 * number2; number1 * (number2-1); ...; number1 * (number2-step)
     #(number1-1) * number2; (number1-1) * (number2-1); ...; (number1-1) * (number2-step)
