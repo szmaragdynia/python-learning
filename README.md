@@ -19,3 +19,4 @@ lnx: source .venv/bin/activate
 
 this line is a test
 
+in vscode: ctrl+/ -> comment/uncomment selected block
