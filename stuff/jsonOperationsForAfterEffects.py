@@ -5,7 +5,7 @@ import json
 import copy
 
 # Load the data from the file
-with open('C:\\Users\\Admin\\Desktop\\zepp life\\kuby\\kubaORG.json', 'r') as f:
+with open('Y:\OUR\PATH\to1.file', 'r') as f:
     json_array_read = json.load(f)
 json_array_write = copy.deepcopy(json_array_read)
 
@@ -32,7 +32,7 @@ for i, read_entry in enumerate(json_array_read[:-1]): #iterate over all except l
             entry_updated_copy = read_entry.copy()
             # print("\n-entry_updated_copy_BEFORE_for_j-\n",entry_updated_copy)
             entry_updated_copy['normalized time in seconds'] += n_missing_entries - j 
-            entry_updated_copy['fake values'] = "TRUE"
+            entry_updated_copy['real values'] = "FALSE"
             # print("\n-entry_updated_copy_AFTER_CHANGES-\n",entry_updated_copy)
 
             # print("\n----\ninserting before index: ", insert_before_index, "\nwhich is\n:", json_array_write[insert_before_index],"\nand I am inserting this:\n",entry_updated_copy)
@@ -46,5 +46,5 @@ for i, read_entry in enumerate(json_array_read[:-1]): #iterate over all except l
         # I am not setting any flag for pointing out deleting some data. Well, meh. Too much hassle for almost(or literaly) no value (no pun intended[really]).
 
 # Save the modified data to the file
-with open('C:\\Users\\Admin\\Desktop\\zepp life\\kuby\\kubaORG_cleanUp.json', 'w') as f:
+with open('Y:\OUR\PATH\to_changed1.file', 'w') as f:
     json.dump(json_array_write, f, indent=2)
