@@ -5,7 +5,7 @@ import json
 import copy
 
 # Load the data from the file
-with open('Y:\OUR\PATH\to1.file', 'r') as f:
+with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\Przehyba_z_Kuba_rower_.json', 'r') as f:
     json_array_read = json.load(f)
 json_array_write = copy.deepcopy(json_array_read)
 
@@ -46,5 +46,5 @@ for i, read_entry in enumerate(json_array_read[:-1]): #iterate over all except l
         # I am not setting any flag for pointing out deleting some data. Well, meh. Too much hassle for almost(or literaly) no value (no pun intended[really]).
 
 # Save the modified data to the file
-with open('Y:\OUR\PATH\to_changed1.file', 'w') as f:
+with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\Przehyba_z_Kuba_rower_cleanUp.json', 'w') as f:
     json.dump(json_array_write, f, indent=2)

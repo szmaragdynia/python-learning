@@ -22,7 +22,7 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 # Load the CLEANED UP data from the file
-with open('Y:\OUR\PATH\to2.file', 'r') as f:
+with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\Przehyba_z_Kuba_rower_cleanUp.json', 'r') as f:
     clean_json_array = json.load(f)
 
 n_entries = len(clean_json_array)
@@ -106,6 +106,6 @@ while i < n_entries: #iterate from 2nd because we append speed to second element
             i -= 1 #compensation - we and at unchecked element, and later we increment again.
     i=i+1
 
-with open('Y:\OUR\PATH\to_changed2.file', 'w') as f:
+with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\Przehyba_z_Kuba_rower_cleanUp_withSpeed.json', 'w') as f:
     json.dump(clean_json_array, f, indent=2)
 
