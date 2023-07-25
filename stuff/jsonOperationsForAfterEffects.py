@@ -1,5 +1,6 @@
 # this file is for cleaning up data from gps, in order for it to work somehow in after effects
 # I need a record every second, even if it would be empty.
+# Use this file first
 
 import json
 import copy
@@ -17,7 +18,7 @@ for i, read_entry in enumerate(json_array_read[:-1]): #iterate over all except l
     curr_entry_nrml_time = read_entry['normalized time in seconds']
     nxt_entry_nrml_time = (json_array_read[i + 1])['normalized time in seconds']
     
-    n_missing_entries = nxt_entry_nrml_time - curr_entry_nrml_time - 1 #if 3 exists and the next is 6, we need 4,5 - two elements 
+    n_missing_entries = nxt_entry_nrml_time - curr_entry_nrml_time - 1 #if '3' exists and the next is '6', we need 4,5 - two elements 
     
     # print("added_entries_so_far:", added_entries_so_far)
     # print("i: ", i)
