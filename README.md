@@ -1,4 +1,5 @@
-# Repo for learning python 
+# Repo for all things python
+I am actually in the process of cleaning up mess (merging, further automating, more elegant solutions) in the gps-related scripts
 
 # Notes for myself
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
