@@ -1,23 +1,8 @@
 # Repo for all things python
-I am actually in the process of cleaning up mess (merging, further automating, more elegant solutions) in the gps-related scripts
+This repository serves as a container for many different pythonese things. I've choosen that "design" because I rarely use python.
+---
+As of July 2023 I am actually in the process of cleaning up this repo, especially I am cleaning up the gps-related scripts (merging files, further automation, more elegant solutions)
 
 # Notes for myself
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-    win 10 doesn't seem to need that
-
-Run shorcut:
-alt+/
-
-virtual environment creation:
-py -3 -m venv .venv
-
-virtual environment at Windows:
-".venv\scripts\activate"
-"deactivate" 
-
-virtual environment at Linux:
-lnx: source .venv/bin/activate
-
-this line is a test
-
-in vscode: ctrl+/ -> comment/uncomment selected block
+alt+/  -> run shorcut
+ctrl+/ -> comment/uncomment selected block
