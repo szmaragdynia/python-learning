@@ -1,6 +1,6 @@
-# Here are all the things that I checked to get a grasp of python workings
+# This script contains very small pieces of code that I wanted to try out. Some of them are extremely trivial, however I let them reside here anyway. 
 
-# Function names are the way they are, because they are irrelevant, functions' only purpose is to enable me to run only the thing I am interested in right now (because that file contains many different things)
+# Function names are so simple and no information-bearing, because they are irrelevant - functions' sole purpose is to enable me to run only the part of the code I am interested in right now.
   # I used to have separate files for learning, checking how things work etc., but that was too messy, and not really convenient whenever I wanted to recall something
 
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -39,5 +39,8 @@ def main():
         print("Invalid choice.")
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
-if __name__ == "__main__":
+if __name__ == "__main__": 
   main()
+
+# if script is run as main program, __name__ is assigned "__main__" (there are two underscores)
+# should this script be imported by another script (e.g. "import scripto", when this file is "scripto.py" ), the __name__ in scripto.py will be "scripto"
