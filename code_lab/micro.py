@@ -16,6 +16,13 @@ def b():
 
   print(listalist)
   print(len(listalist))
+# ----------------------------------------------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+def c():
+  x = np.linspace(0, 20, 100)  # Create a list of evenly-spaced numbers over the range
+  plt.plot(x, np.sin(x))       # Plot the sine of each x point
+  plt.show()                   # Display the plot
 
 
 
@@ -24,6 +31,7 @@ def b():
 code_fragments = {
     'a': a,
     'b': b,
+    'c': c,
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below
