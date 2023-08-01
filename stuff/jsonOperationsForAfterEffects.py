@@ -27,7 +27,7 @@ for i, read_entry in enumerate(json_array_read[:-1]): #iterate over all except l
     # print("n_missing_entries:", n_missing_entries)
     
     if n_missing_entries > 0:
-        insert_before_index = (i + 1) + added_entries_so_far
+        insert_before_index = (i + 1) + added_entries_so_far # with every entries added previously, the index from the file python is reading from, differs from the file, python is writing to. 
         for j in range(n_missing_entries):
             # print("\tj=", j, "out of ", n_missing_entries)
             entry_updated_copy = read_entry.copy()
