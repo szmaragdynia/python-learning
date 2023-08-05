@@ -1,3 +1,5 @@
+# this file shall merge (or improve and merge) previous approaches, and be used as one standalone script,without demanding from user any previous action on the gpx files
+
 # perhaps should have used virtual environment
 import pandas as pd
 import gpxpy

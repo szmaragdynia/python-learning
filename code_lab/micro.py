@@ -1,4 +1,5 @@
 # This script contains very small pieces of code that I wanted to try out. Some of them are extremely trivial, however I let them reside here anyway. 
+  # this file was merged from several old, smaller files
 
 # Function names are so simple and no information-bearing, because they are irrelevant - functions' sole purpose is to enable me to run only the part of the code I am interested in at any given moment.
   # I used to have separate files for learning, checking how things work etc., but that was too messy, and not really convenient whenever I wanted to recall something
@@ -79,9 +80,11 @@ def b():
   list2 = [4,5,6]
 
   listoflists = [list, list2]
-
-  print(listoflists)
-  print(len(listoflists))
+  
+  print("list:", list)
+  print("list2:", list2)
+  print("listoflists [list, list2]:", listoflists)
+  print("len(listoflists):", len(listoflists))
 # ----------------------------------------------------------------
 import matplotlib.pyplot as plt
 import numpy as np
@@ -136,7 +139,84 @@ def e():
   except ValueError:
     print(f"Cannot sensibly cast that string ({number1+number2}) to float")
 
+# ----------------------------------------------------------------
+def f():
+  colours = ["white", "Yellow", "green", "some colour", "red-and-" "green-ish", 
+                  "red", "greenish"]
 
+  print("colours:",colours)
+  print("colours[0]:",colours[0])
+  print("colours[1]:",colours[1])
+  print("colours[-0]:",colours[-0])
+  print("colours[-1]:",colours[-1])
+  print("colours[1:]:",colours[1:])
+  print("colours[1:4]:",colours[1:4])
+  colours[1] = "blAAck"
+  print("now colours[1]=blAAck")
+  print("colours[1:4]:",colours[1:4])
+  print("colours:",colours)
+  print("colours[-1:-3]:",colours[-1:-3])
+  print("colours[-3:-1]:",colours[-3:-1])
+  print("colours[3:1]:",colours[3:1])
+  print("colours[-4:5]:",colours[-4:5])
+
+# ----------------------------------------------------------------
+def g():
+  colours = ["white", "blAAck", "green", "some colour", "red-and-" "green-ish", 
+                  "red", "greenish"] # from previos
+  dogs = ["beagle", "dog", "sznauzer"]
+
+  print("colours", colours)
+  print("dogs", dogs)
+
+  dogs.extend(colours)
+  print("dogs after dogs.extend(colours):",dogs)
+
+  colours.extend(colours)
+  print("colour after colours.extend(colours):", colours)
+
+  dogs.append("pointer") #yes, that's a breed, and wonderful one!
+  print("dogs after dogs.append('pointer')",dogs)
+
+  dogs.insert(0,"abcdedler")
+  print("dogs after dogs.insert(0,'abcdedler')",dogs)
+
+  dogs.remove("white")
+  print('dogs after dogs.remove("white")',dogs)
+
+  print('colours:',colours)
+  colours.pop()
+  print('colours after colours.pop():', colours)
+
+  print('colours.index("green"):',colours.index("green"))
+  print('colours.count("badcolor"):', colours.count("badcolor"))
+  print('colours.count("greenybadcolor"):',colours.count("greenybadcolor"))
+
+  colours.sort()
+  print("colours after colours.sort()", colours)
+
+  colours.reverse()
+  print("colours after colours.reverse()", colours)
+
+  print("dogs:",dogs)
+  dogs.clear()
+  print("dogs, after dogs.clear():",dogs)
+
+# ----------------------------------------------------------------
+def h():
+  numbers = [1,5,6,4,234,6,8,-4,      10-10]
+  print("numbers",numbers)
+  numbers.sort()
+  print("number after .sort()",numbers)
+
+  numbers2 = numbers
+  numbers_copy = numbers.copy()
+  print("numbers2 which is numbers2=numbers:",numbers2)
+  print("numbers_copy which is numbers_copy = numbers.copy():", numbers_copy)
+  del numbers[1:3]
+  print("numbers after del numbers[1:3]:", numbers)
+  print("numbers2 after previous del numbers[1:3]:",numbers2)
+  print("numbers_copy after previous del numbers[1:3]", numbers_copy)
 
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
@@ -148,6 +228,9 @@ code_fragments = {
     'c': c,
     'd': d,
     'e': e,
+    'f': f,
+    'g': g,
+    'h': h
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below
