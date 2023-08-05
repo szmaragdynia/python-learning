@@ -445,6 +445,36 @@ def k_6():
   print(translator("No i co by pies na to powiedział"))
 
 # ----------------------------------------------------------------
+def l():
+  try:
+      number = int(input("1 Enter number: "))
+      print(number)
+  except: #this is too general, it catches anything
+      print("1Some error") 
+
+  try:
+      number2 = int(input("2 Enter number: "))
+      print(number2)
+      print(number2/0)
+  except ZeroDivisionError:
+      print("2You tried to divide by zero")
+  except ValueError: #should someone not enter integer, the program does not break thanks to error handling ("handling" in quotes here)
+      print("2You entered invalid value")
+
+  #different way for the same as above
+  try:
+      number3 = int(input("3Enter number, if 5 then I will try to divide by 0: "))
+      print(number3)
+      if number3 == 5:
+        print(number3/0)
+  except ZeroDivisionError as err:
+      print(err)
+  except ValueError as err:
+      print(err)
+
+  # I have something more in bookmarks; there is also 'finally' block which is always run (I assume)
+
+# ----------------------------------------------------------------
 # ----------------------------------------------------------------
 code_fragments = {
     'a': a,
@@ -466,6 +496,7 @@ code_fragments = {
     'k_4': k_4,
     'k_5': k_5,
     'k_6': k_6,
+    'l': l
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below
