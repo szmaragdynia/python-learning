@@ -5,6 +5,10 @@
   # I used to have separate files for learning, checking how things work etc., but that was too messy, and not really convenient whenever I wanted to recall something
   # Also, the location of 'import' statements is so odd due to the nature of that file
 
+'''You could comment like that as well, 
+but that is (as far as I remember) reserved for documentation(?),
+so it's more proper to use hashes.
+'''
 # --------------------------------------------------------------------------------------------------------------------------------
 def a():
   msg = "Hello World"
@@ -282,9 +286,163 @@ def j():
   print('license_for.get("weapon"):',license_for.get("weapon"))
 
   print('license_for.get("adsad"):',license_for.get("adsad"))
-      #print(license_for["asdassad"]) to juz sypie errorem
+      #print(license_for["asdassad"]) this gives an error
   print('license_for.get("adsad", "what have you even written there!"):',license_for.get("adsad", "what have you even written there!"))
   print("license_for[100]:", license_for[100])
+
+# ----------------------------------------------------------------
+def k():
+  i = 1
+  while i<10:
+      print(i)
+      i+=1
+
+  iteratee =""
+  while iteratee != 'a':
+      print("still in first while")
+      iteratee = input("Input letter \"a\": ")
+          # "iteratee" must be declared prior to use.
+  print("left first while!")
+  
+  while input("Input letter \"b\": ") !='b':
+      print("still in second while")
+  print("left second while!")
+
+# ----------------------------------------------------------------
+def k_2():
+  print('--- for letter in "Wow that is awesome":')
+  for letter in "Wow that is awesome":
+    print(letter)
+  
+  print('--- for letter in "Wow that is awesome", print end="":')
+  for letter in "Wow that is awesome":
+    print(letter, end="")
+
+  print('--- for letter in "Wow that is awesome", print end="" sep="":')
+  for letter in "Wow that is awesome":
+    print(letter, end="",sep="")
+
+# ----------------------------------------------------------------
+def k_3():
+  colours = ["white", "blAAck", "green", "some colour", "red-and-" "green-ish", 
+                  "red", "greenish"] # from previos
+  list_of_tuples = [(1,2), (2,5,3), (3,1)]
+
+  print("--- for colour in colours")
+  for colour in colours:
+      print(colour)
+
+  print("--- for i in range(len(colours)):")
+  for i in range(len(colours)):
+      print(colours[i])
+      if i == 0: print("\tfirst time")
+      else: print("\tnot first time")
+  
+  print("--- for i, colour in enumerate(colours)):")
+  for i, colour in enumerate(colours):
+      print(colour)
+      if i == 0: print("\tfirst time")
+      else: print("\tnot first time")
+
+  print("--- for one_tuple in list_of_tuples:")
+  for one_tuple in list_of_tuples:
+      print(one_tuple)
+
+# ----------------------------------------------------------------
+def k_4():
+
+  print("--- for i in range(10):")
+  for i in range(10):
+      print(i)
+
+  print("--- for i in range(3, 10):")
+  for i in range(3, 10):
+      print(i)
+
+  print("for i in range (0, 11, 3):")
+  for i in range (0, 11, 3): # start,end,step-size. Returns 0 3 6 9
+    print(i)
+  
+  print("for i in range (0, 12, 3):")
+  for i in range (0, 12, 3): 
+    print(i)
+
+  print("for i in range (0, 13, 3):")
+  for i in range (0, 13, 3): 
+    print(i)
+
+  print("for i in range(6)...else..")
+  for i in range(6):
+      print(i)
+  else:
+      print("finally finished")   #else in FOR! -after loop is finished. 
+  
+  print("for i in range(6)...break...else..")
+  for i in range(6):
+      print(i)
+      if i ==3:
+          break
+  else:
+      print("finally finished - 2") #will not execute due to 'break' above                                
+
+  print("for i in range(12)...continue...break...else:")
+  for i in range(12):
+      if i == 5:
+          continue #moves to next iteration
+      if i == 8:
+          break #leaves the loop
+      print(i)
+  else:
+      ("I left the for--continue--break--else")
+  print("Out of the loop")
+
+# ----------------------------------------------------------------
+def k_5():
+
+  grid = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [0]
+  ]
+
+  print("grid:",grid)
+  print("grid[0][0]:",grid[0][0])
+  print("grid[1][2]:",grid[1][2])
+
+  print("for row in grid print row")
+  for row in grid: 
+      print(row)
+
+  print("for row in grid ->for col in row -> print row")
+  for row in grid:
+      for col in row:
+          print(col)
+
+# ----------------------------------------------------------------
+def k_6():
+  #writing this for the sake of picturing pythonese way of doing things
+  def power(base, exponent):
+      result = 1
+      for i in range(exponent): #for i in exponent: 'int' object is not iterable
+          result = result*base
+      return result
+
+  print("result does not matter, I Wrote that function for picturing pythonese way - power(2,3):",power(2,3))
+
+  print("\n\n------------")
+
+  # the below is from tutorial (stuff above maybe too, can't remember anymore), because it presents pythonese way of doing things
+  #in C++ I'd probably just copy the string and check every index in it, and here python rewrites it. Basically the same, more or less
+  def translator(text):
+      translated =""
+      for letter in text:
+          if letter not in "AEOUIYaeouiy": # if ltr.lower not in "aeouiy" - more efficient?
+              translated = translated + letter # concatenate what was parsed so far with the current letter
+          else: translated = translated + "g" # concatenate what was parsed so far with letter 'g' instead of current letter
+              #ok, in 'for x in something', it iterates over the 'indexes' and 'dereferences' the object in the index.
+      return translated
+  print(translator("No i co by pies na to powiedział"))
 
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
@@ -302,6 +460,12 @@ code_fragments = {
     'h': h,
     'i': i,
     'j': j,
+    'k': k,
+    'k_2': k_2,
+    'k_3': k_3,
+    'k_4': k_4,
+    'k_5': k_5,
+    'k_6': k_6,
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below
