@@ -85,6 +85,24 @@ def b():
   print("list2:", list2)
   print("listoflists [list, list2]:", listoflists)
   print("len(listoflists):", len(listoflists))
+
+# ----------------------------------------------------------------
+def b_2():
+  #tuples
+  tuple = (2,6);
+  tuple2 = (2.5, 6.4)
+  something = (1,2,3,4,5,6,7,8,9)
+
+  print("tuple:",tuple)
+  print("tuple2:",tuple2)
+  print("something",something)
+
+  print("something[4]:", something[4])
+  #something[4]=2 immutable
+
+  list_of_tuples = [(1,2), (2,5,3), (3,1)]
+  print("list_of_tuples:",list_of_tuples)
+
 # ----------------------------------------------------------------
 import matplotlib.pyplot as plt
 import numpy as np
@@ -225,6 +243,7 @@ code_fragments = {
     'a2_1':a2_1,
     'a2_2':a2_2,
     'b': b,
+    'b_2': b_2,
     'c': c,
     'd': d,
     'e': e,
