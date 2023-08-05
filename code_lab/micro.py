@@ -9,7 +9,7 @@
 def a():
   msg = "Hello World"
   print(msg)
-  print("foo\n\n")
+  print("say_hello_var\n\n")
 
   price = 100
   item = "doll"
@@ -237,6 +237,56 @@ def h():
   print("numbers_copy after previous del numbers[1:3]", numbers_copy)
 
 # ----------------------------------------------------------------
+def i():
+  def say_hello(greeting = "Hello", name = "John"):
+      print(greeting + " " + name)
+      return True
+      print("this is not processed")
+
+  say_hello_var = say_hello()
+  print("say_hello_var:",say_hello_var)
+  print('say_hello("good morning","Caroline"), function here:',say_hello("good morning","Caroline"))
+  
+  print('say_hello("good morning","Caroline"):')
+  say_hello("good morning","Caroline")
+  
+  print('say_hello("howdy"):')
+  say_hello("howdy")
+
+  print('say_hello(name = "Michael"):')
+  say_hello(name = "Michael")
+
+  print("\n-------------\n")
+
+  is_sad = True
+  if is_sad and say_hello_var:
+      print("ifs work")
+  elif not is_sad and not say_hello_var:
+      print ("ifs keep working")
+  else: 
+      print("something is wrong")
+
+
+# ----------------------------------------------------------------
+def j():
+  #dictionary
+  license_for = {
+      "weapon": True,
+      "life": 75,
+      "three_dogs": [True, True, False],
+      100: "100 not allowed (whatever meaning that should convey)"
+  }
+
+  print("license_for:",license_for)
+  print('license_for["weapon"]:',license_for["weapon"])
+  print('license_for.get("weapon"):',license_for.get("weapon"))
+
+  print('license_for.get("adsad"):',license_for.get("adsad"))
+      #print(license_for["asdassad"]) to juz sypie errorem
+  print('license_for.get("adsad", "what have you even written there!"):',license_for.get("adsad", "what have you even written there!"))
+  print("license_for[100]:", license_for[100])
+
+# ----------------------------------------------------------------
 # ----------------------------------------------------------------
 code_fragments = {
     'a': a,
@@ -249,7 +299,9 @@ code_fragments = {
     'e': e,
     'f': f,
     'g': g,
-    'h': h
+    'h': h,
+    'i': i,
+    'j': j,
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below
