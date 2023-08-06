@@ -475,6 +475,45 @@ def l():
   # I have something more in bookmarks; there is also 'finally' block which is always run (I assume)
 
 # ----------------------------------------------------------------
+from dog_class import Dog
+from bigdog_class import BigDog
+
+import constants
+
+def m():
+
+  number_three = constants.three
+  print("three from 'constants' module is:", number_three)
+  planck_constant = constants.planck_constant
+  print("planck_constant from 'constants' module is:", planck_constant)
+
+  print("----")
+  dog1 = Dog("max", "terrier", 9, True)
+  print("name: " + dog1.name + "\n" + "age: " + str(dog1.age) + "\n" + "breed: " + dog1.breed)
+  if dog1.is_old():
+      print("old dog")
+  elif not dog1.is_old():
+      print ("not an old dog")
+
+  print("----")
+  # dog2 = Dog(name="hockey", breed="pointer", age=3, asdasd=True) # will not work - and very well!
+  dog2 = Dog(name="hockey", breed="pointer", age=3, is_vaccinated=True) 
+  print("name: " + dog2.name + "\n" + "age: " + str(dog2.age) + "\n" + "breed: " + dog2.breed)
+  if dog2.is_old():
+      print("old dog")
+  elif not dog2.is_old():
+      print ("not an old dog")
+  
+  print("----")
+  bigdog = BigDog("Pavel", "border collie", 9, True, 100)
+  print("name: " + bigdog.name + "\n" + "age: " + str(bigdog.age) + "\n" + "breed: " + bigdog.breed)
+  if bigdog.is_old():
+      print("old dog")
+  elif not bigdog.is_old():
+      print ("not an old dog")
+          #despite the same age, there is a different result, because the function is overloaded in the derived class 
+
+# ----------------------------------------------------------------
 # ----------------------------------------------------------------
 code_fragments = {
     'a': a,
@@ -496,7 +535,8 @@ code_fragments = {
     'k_4': k_4,
     'k_5': k_5,
     'k_6': k_6,
-    'l': l
+    'l': l,
+    'm': m
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below

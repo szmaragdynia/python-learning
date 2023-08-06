@@ -35,6 +35,10 @@ df = pd.DataFrame(
     }
 )
 
+#swap regex for the below 
+#def get_file_ext(filename):
+#   return filename[filename.index(".") + 1:]
+
 output_filename = re.sub("\..*$", "_dataFromGpx.csv", input_filename) # this catches what I want, but also probably catches what I would not want - irrelevant for now.
 df.to_csv(path_to_file_dir+output_filename,index=False)
 
