@@ -475,13 +475,12 @@ def l():
   # I have something more in bookmarks; there is also 'finally' block which is always run (I assume)
 
 # ----------------------------------------------------------------
-from dog_class import Dog
-from bigdog_class import BigDog
+from micro_imports.dog_class import Dog
+from micro_imports.bigdog_class import BigDog
 
-import constants
+import micro_imports.constants as constants
 
 def m():
-
   number_three = constants.three
   print("three from 'constants' module is:", number_three)
   planck_constant = constants.planck_constant
@@ -514,6 +513,29 @@ def m():
           #despite the same age, there is a different result, because the function is overloaded in the derived class 
 
 # ----------------------------------------------------------------
+from micro_imports.questions_answers_class import QA
+
+def n():
+  set1 = [
+      "What colour is the Sun?\n(a) green\n(b) yellow\n: ",
+      "What colour is dirt?\n(a) brown\n(b) white\n: ",
+      "What colour is colour green?\n(a) green\n(b) yellow\n: ",
+      ]
+
+  questions_and_answers = [
+      QA(set1[0], "b"),
+      QA(set1[1], "a"),
+      QA(set1[2], "a"),
+  ]
+
+  score = 0
+  for qa in questions_and_answers:
+      answer = input(qa.question)
+      if answer == qa.answer:
+          score += 1
+  print("You scored " + str(score) +" out of " + str(len(questions_and_answers)))
+
+# ----------------------------------------------------------------
 # ----------------------------------------------------------------
 code_fragments = {
     'a': a,
@@ -536,7 +558,8 @@ code_fragments = {
     'k_5': k_5,
     'k_6': k_6,
     'l': l,
-    'm': m
+    'm': m,
+    'n': n
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below
