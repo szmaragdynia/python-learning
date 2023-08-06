@@ -1,4 +1,4 @@
-# Repo for all things python
+# Repository for all things python
 This repository serves as a container for different pythonese 'things'. I've choosen that "design" of a repository because I rarely use python.
 
 "sensible_scripts" directory contains scripts that actually do something useful.
