@@ -1,6 +1,7 @@
+# Use this file as 1 of 3
+
 # this file is for cleaning up data from gps, in order for it to work somehow in after effects
 # I need a record every second, even if it would be empty.
-# Use this file first
 
 import json
 import copy

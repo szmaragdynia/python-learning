@@ -17,7 +17,7 @@ latitude_deg = []
 longitude_deg = []
 elevation_m = []
 timeISO8601 = []
-for track in gpx.tracks[:1]: # we have only one, thus omitting rest of cases so that we don't bother in the future with undefined behaviour in case I forgot
+for track in gpx.tracks[:1]: # we have only one, thus omitting rest of cases so that we don't bother in the future with undefined behaviour in case I forget about that assumption (I won't process data from another tracks, becasue I do not know nor need to know now about how that exactly works)
     for segment in track.segments[:1]: # same as above
         for point in segment.points[:30]:
             latitude_deg.append(point.latitude)

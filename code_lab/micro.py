@@ -139,7 +139,7 @@ def d():
     "ceil(3.2):",ceil(3.2),'\n'
     "sqrt(81):",sqrt(81)
   )
-  # TO DO difference between math that does not need importing, the one that does need, and the numpy (e.g. np.abs and abs - are there any differences in another methods?)
+  # TO DO difference between math that does not need importing, the one that does need, and the numpy (e.g. np.abs and abs - and also are there any differences in other methods?)
 
 # ----------------------------------------------------------------
 def e():
@@ -185,7 +185,7 @@ def f():
 # ----------------------------------------------------------------
 def g():
   colours = ["white", "blAAck", "green", "some colour", "red-and-" "green-ish", 
-                  "red", "greenish"] # from previos
+                  "red", "greenish"] # from previous
   dogs = ["beagle", "dog", "sznauzer"]
 
   print("colours", colours)
@@ -197,7 +197,7 @@ def g():
   colours.extend(colours)
   print("colour after colours.extend(colours):", colours)
 
-  dogs.append("pointer") #yes, that's a breed, and wonderful one!
+  dogs.append("pointer") #yes, that's a breed, and a wonderful one!
   print("dogs after dogs.append('pointer')",dogs)
 
   dogs.insert(0,"abcdedler")
@@ -245,7 +245,7 @@ def i():
   def say_hello(greeting = "Hello", name = "John"):
       print(greeting + " " + name)
       return True
-      print("this is not processed")
+      print("this is not processed") # or maybe is it processed/accessed? However this certainly is not executed
 
   say_hello_var = say_hello()
   print("say_hello_var:",say_hello_var)
@@ -325,7 +325,7 @@ def k_2():
 # ----------------------------------------------------------------
 def k_3():
   colours = ["white", "blAAck", "green", "some colour", "red-and-" "green-ish", 
-                  "red", "greenish"] # from previos
+                  "red", "greenish"] # from previous
   list_of_tuples = [(1,2), (2,5,3), (3,1)]
 
   print("--- for colour in colours")
@@ -375,7 +375,7 @@ def k_4():
   for i in range(6):
       print(i)
   else:
-      print("finally finished")   #else in FOR! -after loop is finished. 
+      print("finally finished")   #else in FOR! - after loop is finished. 
   
   print("for i in range(6)...break...else..")
   for i in range(6):
@@ -432,8 +432,8 @@ def k_6():
 
   print("\n\n------------")
 
-  # the below is from tutorial (stuff above maybe too, can't remember anymore), because it presents pythonese way of doing things
-  #in C++ I'd probably just copy the string and check every index in it, and here python rewrites it. Basically the same, more or less
+  # the below is from tutorial (code above maybe too, can't remember anymore), because it presents pythonese way of doing things
+  #in C++ I'd probably just copy the string and check every index in it, and here python rewrites it. Basically the same, more or less.
   def translator(text):
       translated =""
       for letter in text:
@@ -461,7 +461,7 @@ def l():
   except ValueError: #should someone not enter integer, the program does not break thanks to error handling ("handling" in quotes here)
       print("2You entered invalid value")
 
-  #different way for the same as above
+  #different way for the same as above, but with python error message/description
   try:
       number3 = int(input("3Enter number, if 5 then I will try to divide by 0: "))
       print(number3)
@@ -579,7 +579,7 @@ def main():
 
     if choice == 'qwqw':
       break
-    if choice == 'agag' and choice != 'does_not_exist': #previos choice does exist
+    if choice == 'agag' and choice != 'does_not_exist': #previous choice does exist
       choice = prev_choice
 
     prev_choice = choice

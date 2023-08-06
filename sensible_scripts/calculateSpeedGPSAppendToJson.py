@@ -1,11 +1,13 @@
+# Use this file as 2 of 3
+
 # this file is to calculate momentary speed from my data from JSON array and append that value into each JSON in json array.
 # God forgive this spaghetti, it it one-use only with chances of it being useful in the future - but then will be the time to write it properly
-# Use this file after the first one.
+
 
 import json
 from math import radians, sin, cos, sqrt, atan2
 
-#source: my dear, beloved internet. However I should double-check that
+#source: bing. Checked that with wikipedia.
 def haversine(lat1, lon1, lat2, lon2):
     # Convert decimal degrees to radians
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
