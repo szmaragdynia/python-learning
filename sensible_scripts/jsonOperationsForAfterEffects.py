@@ -6,8 +6,13 @@
 import json
 import copy
 
+
+
+path_to_read = r"Y:\our\path"
+filename_to_read = "\stuff.json"
+
 # Load the data from the file
-with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\Przehyba_z_Kuba_rower_.json', 'r') as f:
+with open(path_to_read+filename_to_read, 'r') as f:
     json_array_read = json.load(f)
 json_array_write = copy.deepcopy(json_array_read)
 
@@ -45,8 +50,11 @@ for i, read_entry in enumerate(json_array_read[:-1]): #iterate over all except l
     if n_missing_entries == -1: #they have the same time
         del json_array_write[i + added_entries_so_far]
         added_entries_so_far += n_missing_entries
-        # I am not setting any flag for pointing out deleting some data. Well, meh. Too much hassle for almost(or literaly) no value (no pun intended[really]).
+        # I am not setting any flag for pointing out deleting some data. Too much hassle for almost (or exactly) no value in return (no pun intended[really]).
+
+path_to_save = r"Y:\our\path"
+filename_to_save = "\stuff_goodTimestamp.json" 
 
 # Save the modified data to the file
-with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\Przehyba_z_Kuba_rower_cleanUp.json', 'w') as f:
-    json.dump(json_array_write, f, indent=2)
+with open(path_to_save+filename_to_save, 'w') as f:
+  json.dump(json_array_write, f, indent=2)

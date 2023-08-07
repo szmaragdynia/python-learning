@@ -1,7 +1,7 @@
 # Use this file as 3 of 3
 
-
-# This script reads json array and repairs timestamp which is coded in iso 8601 time format. The file repaired must be broken by previous files, that is, it is broken such that the timestamps show incorrect time (copied values).
+# This is spaghetti and not very smart. Needs rewriting.
+# This script reads json array and repairs timestamp which is coded in iso 8601 time format. The file repaired must be broken by previous files, that is, it is broken in a specific, known to me, way - such that the timestamps show incorrect time (copied values).
 # This script also changes hours in the timestamp 
 
 import json

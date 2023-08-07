@@ -1,7 +1,7 @@
 # Use this file as 2 of 3
 
 # this file is to calculate momentary speed from my data from JSON array and append that value into each JSON in json array.
-# God forgive this spaghetti, it it one-use only with chances of it being useful in the future - but then will be the time to write it properly
+# Wolrd forgive me for this spaghetti, it it one-use only with chances of it being useful in the future - but then will be the time to write it properly. Also I will rewrite this probably.
 
 
 import json
@@ -23,9 +23,11 @@ def haversine(lat1, lon1, lat2, lon2):
     return round((c * r * 3.6),1)
 
 
+path_to_read = r"Y:\our\path"
+filename_to_read = "\stuff.json"
 
 # Load the CLEANED UP data from the file
-with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\kubaORG_cleanUp.json', 'r') as f:
+with open(path_to_read+filename_to_read, 'r') as f:
     clean_json_array = json.load(f)
 
 n_entries = len(clean_json_array)
@@ -106,9 +108,12 @@ while i < n_entries: #iterate from 2nd because we append speed to second element
                 (clean_json_array[i])['speed km/h'] = speed
                 (clean_json_array[i])['speed status'] = "average over time"
                 i += 1
-            i -= 1 #compensation - we and at unchecked element, and later we increment again.
+            i -= 1 #compensation - we are at unchecked element, and later we increment again.
     i=i+1
 
-with open(r'E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\kubaORG_cleanUp_speed.json', 'w') as f:
-    json.dump(clean_json_array, f, indent=2)
 
+path_to_save = r"Y:\our\path"
+filename_to_save = "\stuff_goodTimestamp.json" 
+
+with open(path_to_save+filename_to_save, 'w') as f:
+  json.dump(clean_json_array, f, indent=2)
