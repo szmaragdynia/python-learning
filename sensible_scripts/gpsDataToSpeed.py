@@ -1,4 +1,5 @@
 # I merged files, now its time to check precisely whether it worked (see in log). Also make logging dictionaries better. Also change what and how is being logged in populating section.
+    # also update logger so that I can choose whether I log to console, file, or both
 
 
 #------------------
@@ -28,9 +29,14 @@ gpx_filename = "kubaORG.gpx"
 log_filename = "log.txt"
 log_file = open(path_to_file_dir + log_filename, 'w')
 
-def log(*args_list, **keyword_args_dict):                          # names for future-me
-    print(*args_list, **keyword_args_dict)
-    print(*args_list, file=log_file, **keyword_args_dict)
+def log(stream="both",*args_list, **keyword_args_dict):                          # names for future-me
+    if stream == "both":
+        print(*args_list, **keyword_args_dict)
+        print(*args_list, file=log_file, **keyword_args_dict)
+    elif stream == "console":
+        print(*args_list, **keyword_args_dict)
+    elif stream == "file":
+        print(*args_list, file=log_file, **keyword_args_dict)
 
 # -------------------------------------------- reading and parsing gpx for further use --------------------------------------------
 time_start_gpx = time.time()
