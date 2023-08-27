@@ -205,13 +205,20 @@ for i, measure in enumerate(measures_list[:-1]):                    # iterate ov
            .format('', 16, n_missing_entries), stream="fileOnly") 
 
         for j in range(n_missing_entries):
-            logger("{0:<{1}}{2}/{3}".format('',16, n_missing_entries, j+1), stream = "fileOnly")
+            logger("{0:<{1}}{2}/{3}".format('',16, n_missing_entries, j+1))
             measure_copy = measure.copy()
-            measure_copy["datetimeISO8601"] = (datetime.fromisoformat(measure["datetimeISO8601"]) + timedelta(seconds=1)).isoformat()
+            logger("{0:<{1}}Object to be inserted, BEFORE updating its data:".format('',16), stream = "fileOnly")
+            logger("{0}{1:<{2}}{3}".format(tab,'', 16, measure_copy), stream = "fileOnly")
+            measure_copy["datetimeISO8601"] = (datetime.fromisoformat(measure_copy["datetimeISO8601"]) + timedelta(seconds=1)).isoformat()
                                                                         # add one second to the time of the current measure
                                                                         # This loops will be run often, I don't want to make variable for "newtime" just for sake of it. It's readable!
                                                                         # BEWARE! NOT HANDLING CHANGING DATE NOR DATETIMEISOFORMAT, SHOULD TIME+1 CHANGE DAY!
             measure_copy["original_data"] = False            
+            logger("{0:<{1}}Object to be inserted, AFTER updating its data:".format('',16), stream = "fileOnly")
+            logger("{0}{1:<{2}}{3}".format(tab,'', 16, measure_copy), stream = "fileOnly")
+            logger("{0:<{1}}It will be insterted before index:".format('',16), stream = "fileOnly")
+            logger("{0}{1:<{2}}{3} which holds this object:".format(tab, '', 16, insert_before_index), stream = "fileOnly")
+            logger("{0}{1:<{2}}{3}".format(tab,'', 16, measures_list_populated[insert_before_index]), stream = "fileOnly")
             measures_list_populated.insert(insert_before_index, measure_copy)    #insert before (i+1)-th element
         added_entries_so_far += n_missing_entries                           #keeping track of how many more entries there are in the output dictionary list
         if n_missing_entries >= 5:
