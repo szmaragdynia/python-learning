@@ -54,7 +54,7 @@ with open(path_to_files_dir + gpx_filename, 'r') as gpx_file:
 measures_list = []
 for track in gpx.tracks[:1]:                                        # we have only one, thus omitting rest of cases so that we don't bother in the future with undefined behaviour in case I forget about that assumption (I won't process data from another tracks, becasue I do not know nor need to know now about how that exactly works)
     for segment in track.segments[:1]: # same as above
-        for point in segment.points[:100]:                                # --------- BEWARE OF THE >TEMPORARY< RESTRICTION FOR TESTING-CODE PURPOSES
+        for point in segment.points[:30]:                                # --------- BEWARE OF THE >TEMPORARY< RESTRICTION FOR TESTING-CODE PURPOSES
             measures_list.append({
                             "original_data": True, 
                             "latitude_deg": point.latitude,
@@ -164,7 +164,7 @@ measures_list_populated = copy.copy(measures_list)
 added_entries_so_far = 0                                            # necessary to know how many items were added so far, for keeping proper indexes in output dictionary
                                                                     # I could go backwards...but I had gone forwards previously and now I will just reuse the logic.                                                               
 for i, measure in enumerate(measures_list[:-1]):                    # iterate over all except last, because it does not have the next element
-    logger("{0}/{1:<{2}}".format(len(measures_list) - 1, i, digs_msr))
+    logger("{0}/{1:<{2}}/(new list index={3})".format(len(measures_list) - 1, i, digs_msr, i+added_entries_so_far))
     
     current_datetime = datetime.fromisoformat(measure["datetimeISO8601"])
     next_datetime = datetime.fromisoformat(measures_list[i+1]["datetimeISO8601"])
@@ -194,43 +194,43 @@ for i, measure in enumerate(measures_list[:-1]):                    # iterate ov
            .format('', 16, added_entries_so_far), stream="fileOnly") #tab and then the same amount of space as in previous line
     
     if time_difference_in_seconds > 1:
-        insert_before_index = (i + 1) + added_entries_so_far            # with every entries added previously, the index from the dictionary list python is reading from differs from the dictionary list python is writing to. 
-        n_missing_entries = time_difference_in_seconds - 1        
-        
+        n_missing_entries = time_difference_in_seconds - 1
         if n_missing_entries < 5:
             logger("{0:<{1}}{2} missing (Time difference bigger than 1 second occured)."
            .format('', 16, n_missing_entries), stream="fileOnly") 
         elif n_missing_entries >=5:
             logger("~< {0:<{1}}{2} missing (Time difference bigger than 1 second occured)."
            .format('', 16, n_missing_entries), stream="fileOnly") 
-
         for j in range(n_missing_entries):
-            logger("{0:<{1}}{2}/{3}".format('',16, n_missing_entries, j+1))
+            insert_before_index = (i + 1) + added_entries_so_far    # with every entries added previously, the index from the dictionary list python is reading from differs from the dictionary list python is writing to. 
             measure_copy = measure.copy()
+            logger("~< {0:<{1}}{2}/{3}".format('',16, n_missing_entries, j+1))
             logger("{0:<{1}}Object to be inserted, BEFORE updating its data:".format('',16), stream = "fileOnly")
             logger("{0}{1:<{2}}{3}".format(tab,'', 16, measure_copy), stream = "fileOnly")
-            measure_copy["datetimeISO8601"] = (datetime.fromisoformat(measure_copy["datetimeISO8601"]) + timedelta(seconds=1)).isoformat()
-                                                                        # add one second to the time of the current measure
-                                                                        # This loops will be run often, I don't want to make variable for "newtime" just for sake of it. It's readable!
-                                                                        # BEWARE! NOT HANDLING CHANGING DATE NOR DATETIMEISOFORMAT, SHOULD TIME+1 CHANGE DAY!
-            measure_copy["original_data"] = False            
+            measure_copy["datetimeISO8601"] = (datetime.fromisoformat(measure["datetimeISO8601"]) + timedelta(seconds=1+j)).isoformat()
+            measure_copy["original_data"] = False
             logger("{0:<{1}}Object to be inserted, AFTER updating its data:".format('',16), stream = "fileOnly")
             logger("{0}{1:<{2}}{3}".format(tab,'', 16, measure_copy), stream = "fileOnly")
-            logger("{0:<{1}}It will be insterted before index:".format('',16), stream = "fileOnly")
-            logger("{0}{1:<{2}}{3} which holds this object:".format(tab, '', 16, insert_before_index), stream = "fileOnly")
+            logger("{0:<{1}}It will be insterted before index: {2}".format('',16, insert_before_index), stream = "fileOnly")
+            logger("{0}{1:<{2}} which holds this object:".format(tab, '', 16, ), stream = "fileOnly")
             logger("{0}{1:<{2}}{3}".format(tab,'', 16, measures_list_populated[insert_before_index]), stream = "fileOnly")
             measures_list_populated.insert(insert_before_index, measure_copy)    #insert before (i+1)-th element
-        added_entries_so_far += n_missing_entries                           #keeping track of how many more entries there are in the output dictionary list
+            logger("\n{0:<{1}}Now object in the index {2} is: ".format('', 16,insert_before_index-1), stream="fileOnly" )
+            logger("{0}{1:<{2}}{3}".format(tab, '', 16, measures_list_populated[insert_before_index-1]), stream = "fileOnly")
+            logger("\n{0:<{1}}Now object in the index {2} is: ".format('', 16,insert_before_index), stream="fileOnly" )
+            logger("{0}{1:<{2}}{3}".format(tab, '', 16, measures_list_populated[insert_before_index]), stream = "fileOnly")
+            logger("\n{0:<{1}}Now object in the index {2} is: ".format('', 16,insert_before_index+1), stream="fileOnly" )
+            logger("{0}{1:<{2}}{3}".format(tab, '', 16, measures_list_populated[insert_before_index+1]), stream = "fileOnly")
+            logger("~>")
+            added_entries_so_far = added_entries_so_far + 1 #keeping track of how many more entries there are in the output dictionary list
         if n_missing_entries >= 5:
             logger("~>",stream = "fileOnly")
-
     elif time_difference_in_seconds == 0:                                   
             logger("\n\n\nBug, the previous step (deleting duplicates) seems to have failed. Program will now exit.")
             exit()
     elif time_difference_in_seconds < 0:                                   
             logger("\n\n\nSerious bug! Next time is earlier than previous time! Program will now exit.")
             exit()
-    
 logger("~>",stream = "fileOnly")
 
 output_filename_step3_csv = gpx_filename[:gpx_filename.index(".")] + "__3no-missing-values.csv" 
