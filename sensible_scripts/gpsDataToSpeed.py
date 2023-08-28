@@ -241,6 +241,8 @@ with open(path_to_files_dir + output_filename_step3_csv, 'w', newline='') as out
             
 time_end_populating_missing = time.time()
 
+# -------------------------------------------- calculating speed  --------------------------------------------
+# latitude and longitude are given each second (Be they fake or real)
 
 # ------------------------------------------------------------------------
 #with open(path_to_files_dir + output_filename, 'w') as f:
