@@ -1,7 +1,6 @@
-# Adding one second to copied does not work.
+# finished at line 270
 
 
-#------------------
 # this file shall merge (or improve and merge) previous approaches, and be used as one standalone script,without demanding from user any previous action on the gpx files
 # this script is for cleaning up data from gps, in order for it to work somehow in after effects
 
@@ -11,6 +10,7 @@
 # Todo: how I format indentation in print to file seems to be done in a bad manner. What is help of what I do, if I still need to calculate the length of string I want to indent? My design is probably choosen badly.
 # Todo: replace "quit" with real error handling
 # Todo: use next() or mere for loop - mixing measure with measures[i+1] is utterly poor style
+# Todo: either look-ahead or look-backwards. I am mixing approaches with no reason (maybe there will come out one, but as of now, this is by accident (as far as I remember))
 
 # perhaps should have used virtual environment
 import gpxpy
@@ -244,6 +244,98 @@ time_end_populating_missing = time.time()
 # -------------------------------------------- calculating speed  --------------------------------------------
 # latitude and longitude are given each second (Be they fake or real)
 
+n_entries = len(measures_list_populated)
+measures_list_populated[0]['speed_kmh'] = 0 #dummy
+measures_list_populated[0]['speed_source'] = "dummy value"
+
+i=1
+while i < n_entries: #iterate from 2nd because we append speed to second element from pair it was calculated from, and it is convenient in code to look bacwards
+    print(n_entries-1,"/",i)
+
+    # we need to take care of fake (copied) values, because they make speed constant and just before real value - very large. 
+    # we need to take the last real speed value before fake values, and then the first real speed value after fake values, and intepolate (poor man's:linearly) in the fake-value objects, so we have gradual change of speed
+    # assumptions: 1. before any fake-entries, there is at least one real one with appriopriate geolocation data 
+    #              2. after fake-entries, there are at least TWO real ones with appriopriate geolocation data (two because we want to calculate real speed to interpolate from)
+
+    # I dont understand this comment, I must have been extremely tired. I am leaving this for now - will delete if I finish everything and this will not come in handy:
+        # if second entry is false then we would need dummy speed val in the first element, but this might not make sense if began recording while on the move, because then average speed would make more sense.
+
+    if (measures_list_populated[i])['original_data'] == 'TRUE':
+        latitude_now = measures_list_populated[i]['latitude_deg']
+        longitude_now = measures_list_populated[i]['longitude_deg']
+        
+        latitude_prev = measures_list_populated[i-1]['latitude_deg']
+        longitude_prev = measures_list_populated[i-1]['longitude_deg']
+        
+        speed = haversine(latitude_prev, longitude_prev, latitude_now, longitude_now)
+
+        measures_list_populated[i]['speed_kmh'] = speed
+        measures_list_populated[i]['speed_source'] = "distance from 1 second before to now divided by 1 second"
+    elif (clean_json_array[i])['original_data'] == 'FALSE':
+        #search for first not-fake and determine number of fakes
+        j = i
+        while (clean_json_array[j]['original_data'] == 'FALSE'):
+            j += 1 
+        # j is now first not-fake
+        # if second element after FALSE is ALSO TRUE (because first is, since we exited while) [t f f f f T T]
+        if (j+1<n_entries-1 and clean_json_array[j+1]['original_data'] == 'TRUE'): 
+            # calculate the speed for the second realvalue basing on first and second realvaluem and insert it into proper place
+            latitude_now = (clean_json_array[j+1])['lat52']
+            longitude_now = (clean_json_array[j+1])['lon53']
+            
+            latitude_prev = (clean_json_array[j])['lat52']
+            longitude_prev = (clean_json_array[j])['lon53']
+
+            speed = haversine(latitude_prev, longitude_prev, latitude_now, longitude_now)
+            (clean_json_array[j+1])[speed_kmh'] = speed
+            (clean_json_array[j+1])['speed_source'] = "distance from prev to now"
+
+            # now lets interpolate speed for all fake values and first true value
+            number_of_fakes = j-i # because j points at first after last fake, and i points at first fake
+            magic_number = 2 # well...
+            speed_change_every_second = ((clean_json_array[j+1])[speed_kmh'] - (clean_json_array[i-1])[speed_kmh'])/(number_of_fakes+magic_number)
+            # now insert interpolated speeds
+            k=0
+            # while the main iterator (i) is not yet the same as  look-ahead-iterator (j), which (j) points to first not fake, which needs interpolated speed as well
+            while i <= j:
+                (clean_json_array[i])[speed_kmh'] = (clean_json_array[i-1])[speed_kmh'] + speed_change_every_second
+                (clean_json_array[i])['speed_source'] = "interpolated "
+                i += 1
+            i -= 1 #compensation - we and at unchecked element, and later we increment again.
+        # if second element after FALSE is FALSE, despite first being TRUE [t f f f f T f]
+        # then we dont have enought data points to calculate speed for "T", and simpliest we can do is to use average speed throughout the entire false-scope
+        # in the future I could interpolate speeds more properly - that is maybe loot at previous true speed values and use them to calculate the speed that must had been kept over the distance that is 'fake'
+        elif (j+1<n_entries-1 and clean_json_array[j+1]['original_data'] == 'FALSE'): 
+            # j is still first not-fake
+            # i is first fake
+            # calculate the AVERAGE speed for each missing element, basing on pre-fake realvalue and on post-fake realvalue and insert it into proper place
+            latitude_now = (clean_json_array[j])['lat52']
+            longitude_now = (clean_json_array[j])['lon53']
+            
+            latitude_prev = (clean_json_array[i-1])['lat52']
+            longitude_prev = (clean_json_array[i-1])['lon53']
+
+            speed = haversine(latitude_prev, longitude_prev, latitude_now, longitude_now)
+            while i <= j:
+                (clean_json_array[i])[speed_kmh'] = speed
+                (clean_json_array[i])['speed_source'] = "average over time"
+                i += 1
+            i -= 1 #compensation - we are at unchecked element, and later we increment again.
+    i=i+1
+
+
+
+
+
+output_filename_step4_csv = gpx_filename[:gpx_filename.index(".")] + "__4with-speed.csv" 
+with open(path_to_files_dir + output_filename_step4_csv, 'w', newline='') as output_file: 
+   dict_writer = csv.DictWriter(output_file, fieldnames=csv_headers)
+   dict_writer.writeheader()
+   dict_writer.writerows(measures_list_populated)
+
+time_end_calculating_speed = time.time()
+
+
 # ------------------------------------------------------------------------
 #with open(path_to_files_dir + output_filename, 'w') as f:
 #  json.dump(measures_list, f, indent=2)
@@ -256,6 +348,7 @@ elapsed_time_everything_dupes = timedelta(seconds=time_end_everything_dupes - ti
 elapsed_time_collecting_dupes = timedelta(seconds=time_end_collecting_dupes - time_end_gpx)
 elapsed_time_o2 = timedelta(seconds=time_end_o2 - time_start_o2)
 elapsed_time_populating_missing = timedelta(seconds=time_end_populating_missing - time_end_everything_dupes)
+elapsed_time_calculating_speed = timedelta(seconds=time_end_calculating_speed - time_end_populating_missing)
 
 
 logger("\n\n------------FINISHED------------") 
@@ -267,5 +360,8 @@ logger("{0}{1:<{2}}{3}".format(tab, "....parsing gpx:", 36, elapsed_time_gpx))
 logger("{0}{1:<{2}}{3}".format(tab, "....processing duplicates:", 36, elapsed_time_everything_dupes)) 
 logger("{0}{1:<{2}}{3}".format(2*tab, "....collecting duplicates:", 32, elapsed_time_collecting_dupes)) 
 logger("{0}{1:<{2}}{3}".format(2*tab, "....printing o2:", 32, elapsed_time_o2)) 
-logger("{0}{1:<{2}}{3}".format(tab,"...populating missing:", 36, elapsed_time_populating_missing)) 
+logger("{0}{1:<{2}}{3}".format(tab,"....populating missing:", 36, elapsed_time_populating_missing)) 
+logger("{0}{1:<{2}}{3}".format(tab,"....calculating speed:", 36, elapsed_time_calculating_speed)) 
+
+
 log_file.close()
