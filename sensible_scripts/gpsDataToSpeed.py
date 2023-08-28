@@ -16,13 +16,13 @@
 # perhaps should have used virtual environment
 import gpxpy
 import gpxpy.gpx
-import json
 import csv
 import time
 from datetime import timedelta, datetime
 import copy
 import math
 import numpy as np
+from geopy import distance
 
 time_start = time.time()
 path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\podejscie 2 full automacja\\"
@@ -57,7 +57,7 @@ with open(path_to_files_dir + gpx_filename, 'r') as gpx_file:
 measures_list = []
 for track in gpx.tracks[:1]:                                        # we have only one, thus omitting rest of cases so that we don't bother in the future with undefined behaviour in case I forget about that assumption (I won't process data from another tracks, becasue I do not know nor need to know now about how that exactly works)
     for segment in track.segments[:1]: # same as above
-        for point in segment.points[:30]:                                # --------- BEWARE OF THE >TEMPORARY< RESTRICTION FOR TESTING-CODE PURPOSES
+        for point in segment.points:                                # --------- HERE CHANGE THE RANGE
             measures_list.append({
                             "original_data": True, 
                             "latitude_deg": point.latitude,
@@ -272,7 +272,10 @@ def haversine(lat1, lon1, lat2, lon2, lib=math):
 def calculate_speeds(lat1, lon1, lat2, lon2):
     return {
         "haversine_math": haversine(lat1, lon1, lat2, lon2, lib=math),
-        "haversine_np": haversine(lat1, lon1, lat2, lon2, lib=np)
+        "haversine_np": haversine(lat1, lon1, lat2, lon2, lib=np),
+        "geopy_geodesic": round(distance.distance((lat1, lon1),(lat2, lon2)).meters * 3.6),    #coefficient m/s->kmh/h
+        "geopy_great_circle": round(distance.great_circle((lat1, lon1),(lat2, lon2)).meters * 3.6),
+        
     }
 
 
