@@ -11,153 +11,44 @@
 # Todo: either look-ahead or look-backwards. I am mixing approaches with no reason (maybe there will come out one, but as of now, this is by accident (as far as I remember))
 
 # perhaps should have used virtual environment
-import gpxpy
-import gpxpy.gpx
-import csv
 import time
-from datetime import timedelta, datetime
-import copy
-import math
-import numpy as np
-from geopy import distance
-
 time_start = time.time()
-path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\podejscie 2 full automacja\\"
-from functions.utils import a
+from datetime import timedelta, datetime
+from auxiliary.utils import logger
+logger(datetime.fromtimestamp(time_start))
+import copy, math, numpy as np
+from geopy import distance
+# ----------------
+from auxiliary import utils
+from auxiliary.constants import tab
+from auxiliary import constants
+import auxiliary.gpxFunctions as gpxFunctions
+from auxiliary import duplicatesProcessingFunctions as duplicates
 
-#a()
-
-log_filename = "log.txt"
-log_file = open(path_to_files_dir + log_filename, 'w')
-
-def logger(*args_list, **keyword_args_dict):                          # names for future-me
-    if "stream" in keyword_args_dict:
-        if keyword_args_dict["stream"] == "consoleOnly":
-            del keyword_args_dict["stream"]                           # so it's not "used" (and crashed) by print
-            print(*args_list, **keyword_args_dict)
-        elif keyword_args_dict["stream"] == "fileOnly":
-            del keyword_args_dict["stream"] 
-            print(*args_list, file=log_file, **keyword_args_dict)
-    else:
-        print(*args_list, **keyword_args_dict)
-        print(*args_list, file=log_file, **keyword_args_dict)
-
-tab = "    " # 4 spaces
-
-
-
-# -------------------------------------------- reading and parsing gpx for further use --------------------------------------------
+logger("\n\n~< ------------------------reading and parsing gpx for further use------------------------")
 time_start_gpx = time.time()
 
-gpx_filename = "kubaORG.gpx"
-with open(path_to_files_dir + gpx_filename, 'r') as gpx_file:
-    gpx = gpxpy.parse(gpx_file)
 
-measures_list = []
-for track in gpx.tracks[:1]:                                        # we have only one, thus omitting rest of cases so that we don't bother in the future with undefined behaviour in case I forget about that assumption (I won't process data from another tracks, becasue I do not know nor need to know now about how that exactly works)
-    for segment in track.segments[:1]: # same as above
-        for point in segment.points[:30]:                                # --------- HERE CHANGE THE RANGE
-            measures_list.append({
-                            "original_data": True, 
-                            "latitude_deg": point.latitude,
-                             "longitude_deg": point.longitude,
-                             "elevation_m": point.elevation,
-                             "datetimeISO8601": point.time.isoformat(),
-                             }) 
-
+measures_list = gpxFunctions.makeDictFromGpx(range=30)
 # saving at this stage, so that I can take a peek at what is going on
-csv_headers = measures_list[0].keys()
-output_filename_step1_csv = gpx_filename[:gpx_filename.index(".")] + "__1data-straight-from-gpx.csv" # add postfix and change extension
-with open(path_to_files_dir + output_filename_step1_csv, 'w', newline='') as output_file:             #  '' is imporant, beacuse else I get empty rows in csv every entry
-   dict_writer = csv.DictWriter(output_file, fieldnames=csv_headers)
-   dict_writer.writeheader()
-   dict_writer.writerows(measures_list)
+utils.saveDictListAsCsv(measures_list, constants.output_filename_step1_csv)
 
 time_end_gpx = time.time()
-
-
-# -------------------------------------------- removing duplicates --------------------------------------------
-#this is somewhat (very?) ugly - espacially the logic for checking keys and values. I just wanted to finish merging, tidying will be the next step (should that step occur)
 logger("\n\n~< ------------------------REMOVING DUPLICATES------------------------") # ~<  is for my defined language in notepad++, which allows me to fold text
-
-indexes_to_delete = []
-digs_msr = len(str(len(measures_list))) #number of digits needed to write down the length of my list + tab for prettiness
-logger("~< what is added to deletion list", end = '',stream = "fileOnly")
-for i in range(len(measures_list)-1):
-    logger("\n{0}{1}/{2:<{3}}".format(tab,len(measures_list) - 1, i, digs_msr*2), end="")
-    
-    if (measures_list[i]["datetimeISO8601"] == measures_list[i+1]["datetimeISO8601"]):                          # if this measure seems to be duplicate of the next one
-        if (None in measures_list[i].values() and not None in measures_list[i+1].values()) or (not None in measures_list[i].values() and None in measures_list[i+1].values()): 
-                                                                                # only one of two dicts can have some None values.
-            if not any([
-                measures_list[i]["original_data"] == None,
-                measures_list[i]["latitude_deg"] == None,
-                measures_list[i]["longitude_deg"] == None,
-                measures_list[i]["datetimeISO8601"] == None,
-                measures_list[i+1]["original_data"] == None,
-                measures_list[i+1]["latitude_deg"] == None,
-                measures_list[i+1]["longitude_deg"] == None,
-                measures_list[i+1]["datetimeISO8601"] == None,
-            ]):                                                                 # the only key that has None value is Elevation (it's missing from the logic above, and we know that only one of two dicts have None as value)
-                if measures_list[i]["elevation_m"] == None:                          # if the current measure has None in Elevation
-                    indexes_to_delete.append(i)
-                    logger (i,"(i) is added to deletion list.", end='', stream="fileOnly")
-                elif measures_list[i+1]["elevation_m"] == None:                      # if the current measure has None in Elevation
-                    indexes_to_delete.append(i+1)
-                    logger (i+1,"(i+1) is added to deletion list.", end='', stream="fileOnly")
-                else:
-                    logger("\n\n\nBug, program will now exit. 1.")
-                    exit()
-            else:
-                logger("\n\n\n1This case is not handled. Program will now exit (so you can upgrade the code or manually modify the files).")
-                exit()
-        else:
-            logger("\n\n\n2This case is not handled. Program will now exit (so you can upgrade the code or manually modify the files).")
-            exit()
+duplicates.collect(measures_list)
 time_end_collecting_dupes = time.time()
-logger("\n~>",stream = "fileOnly")
 
-digs_del = len(str(len(indexes_to_delete)))
-logger("\n\nList of indexes to delete:\n",tab,indexes_to_delete, sep='')
-logger("\n~< Elevations \"of indexes\" TO DELETE (should ALL BE \"None\"):", stream="fileOnly")
-logger("{0}{1:<{2}}{3}".format(tab,"Index", 3*digs_del, "Elevation"), stream = "fileOnly")
-for index in indexes_to_delete:
-    logger("{0}{1:<{2}}{3}".format(tab,index, 3*digs_del, measures_list[index]['elevation_m']), stream="fileOnly")
-logger("\n~>",stream = "fileOnly")    
+duplicates.showIndexesToDelete(measures_list)
 
 time_start_o2 = time.time()
-logger("\n~< Entering [almost] o^2 space. Be patient.", stream="fileOnly")    # I underestimated (even not so modern) CPU computational power.
-logger("Elevations \"of indexes\" NOT TO DELETE (should all HAVE VALUE):", stream="fileOnly")
-logger("{0}{1:<{2}}{3}".format(tab,"Index", 3*digs_del, "Elevation"), stream="fileOnly")    
-for i,measure in enumerate(measures_list):
-    matching_value = next((index for index in indexes_to_delete if index == i), None)   # list comprehension in next - generator expression is used (read more some time)
-        # if this index IS EQUAL to any of the indexes to delete. 
-        # USE WITH CAUTION, TIME HEAVY! (o^2 almost) - I could log these previously, but this serves as double-check.
-    if matching_value == None:  # if no index is equal to current index = current index is not on a list to delete
-        logger("{0}{1:<{2}}{3}".format(tab, i, 3*digs_del, measure["elevation_m"]), stream="fileOnly")    
-            #this above will not work as expected    
-logger("~>",stream = "fileOnly")
+duplicates.checkIndexesToDeleteAgainstOriginalList(measures_list)
 time_end_o2 = time.time()
     
+duplicates.remove(measures_list)
 
-indexes_to_delete.sort(reverse=True)
-logger("\nDeleting i:\n",tab, sep = '', end = '')
-for index in indexes_to_delete:    
-    logger(index,end =', ')
-    del measures_list[index]
-logger(".", end = '') 
-logger("\n~>",stream = "fileOnly") # ~> is for my defined language in notepad++, which allows me to fold text
-    
-    
-
-output_filename_step2_csv = gpx_filename[:gpx_filename.index(".")] + "__2no-duplicates.csv" 
-with open(path_to_files_dir + output_filename_step2_csv, 'w', newline='') as output_file: 
-   dict_writer = csv.DictWriter(output_file, fieldnames=csv_headers)
-   dict_writer.writeheader()
-   dict_writer.writerows(measures_list)
-            
+utils.saveDictListAsCsv(measures_list, constants.output_filename_step2_csv)
+           
 time_end_everything_dupes = time.time()
-
 # -------------------------------------------- populating missing data --------------------------------------------
 # After effects expects data every second. I need data every second, even if data is empty or fake. We will copy previous values
 logger("~< ------------POPULATING MISSING DATA------------") 
@@ -166,6 +57,7 @@ measures_list_populated = copy.copy(measures_list)
 added_entries_so_far = 0                                            # necessary to know how many items were added so far, for keeping proper indexes in output dictionary
                                                                     # I could go backwards...but I had gone forwards previously and now I will just reuse the logic.                                                               
 for i, measure in enumerate(measures_list[:-1]):                    # iterate over all except last, because it does not have the next element
+    digs_msr = utils.nDigitsToWriteDownIndex(measures_list)
     logger("{0}/{1:<{2}}=new list index={3}".format(len(measures_list) - 1, i, digs_msr, i+added_entries_so_far))
     
     current_datetime = datetime.fromisoformat(measure["datetimeISO8601"])
@@ -236,14 +128,10 @@ for i, measure in enumerate(measures_list[:-1]):                    # iterate ov
             exit()
 logger("~>",stream = "fileOnly")
 
-output_filename_step3_csv = gpx_filename[:gpx_filename.index(".")] + "__3no-missing-values.csv" 
-with open(path_to_files_dir + output_filename_step3_csv, 'w', newline='') as output_file: 
-   dict_writer = csv.DictWriter(output_file, fieldnames=csv_headers)
-   dict_writer.writeheader()
-   dict_writer.writerows(measures_list_populated)
-            
-time_end_populating_missing = time.time()
 
+utils.saveDictListAsCsv(measures_list, constants.output_filename_step3_csv)
+           
+time_end_populating_missing = time.time()
 # -------------------------------------------- calculating speed  --------------------------------------------
 logger("~< ------------ CALCULATING SPEED ------------")
 # latitude and longitude are given each second (Be they fake or real)
@@ -272,8 +160,8 @@ def calculate_speeds(lat1, lon1, lat2, lon2):
     return {
         "haversine_math": haversine(lat1, lon1, lat2, lon2, lib=math),
         "haversine_np": haversine(lat1, lon1, lat2, lon2, lib=np),
-        "geopy_geodesic": round(distance.distance((lat1, lon1),(lat2, lon2)).meters * 3.6),    #coefficient m/s->kmh/h
-        "geopy_great_circle": round(distance.great_circle((lat1, lon1),(lat2, lon2)).meters * 3.6),
+        "geopy_geodesic": round(distance.distance((lat1, lon1),(lat2, lon2)).meters * 3.6, 1),    #coefficient m/s->kmh/h
+        "geopy_great_circle": round(distance.great_circle((lat1, lon1),(lat2, lon2)).meters * 3.6, 1),
         
     }
 
@@ -376,16 +264,10 @@ while i < n_entries: #iterate from 2nd because we append speed to second element
     i += 1
 
 
-csv_headers = measures_list_populated[0].keys()
-output_filename_step4_csv = gpx_filename[:gpx_filename.index(".")] + "__4with-speed.csv" 
-with open(path_to_files_dir + output_filename_step4_csv, 'w', newline='') as output_file: 
-   dict_writer = csv.DictWriter(output_file, fieldnames=csv_headers)
-   dict_writer.writeheader()
-   dict_writer.writerows(measures_list_populated)
+
+utils.saveDictListAsCsv(measures_list_populated, constants.output_filename_step4_csv)
 
 time_end_calculating_speed = time.time()
-
-
 # ------------------------------------------------------------------------
 #with open(path_to_files_dir + output_filename, 'w') as f:
 #  json.dump(measures_list, f, indent=2)
@@ -414,4 +296,4 @@ logger("{0}{1:<{2}}{3}".format(tab,"....populating missing:", 36, elapsed_time_p
 logger("{0}{1:<{2}}{3}".format(tab,"....calculating speed:", 36, elapsed_time_calculating_speed)) 
 
 
-log_file.close()
+
