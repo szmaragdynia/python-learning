@@ -1,6 +1,3 @@
-# finished at line 270
-
-
 # this file shall merge (or improve and merge) previous approaches, and be used as one standalone script,without demanding from user any previous action on the gpx files
 # this script is for cleaning up data from gps, in order for it to work somehow in after effects
 
@@ -26,7 +23,9 @@ from geopy import distance
 
 time_start = time.time()
 path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\podejscie 2 full automacja\\"
+from functions.utils import a
 
+#a()
 
 log_filename = "log.txt"
 log_file = open(path_to_files_dir + log_filename, 'w')
@@ -57,7 +56,7 @@ with open(path_to_files_dir + gpx_filename, 'r') as gpx_file:
 measures_list = []
 for track in gpx.tracks[:1]:                                        # we have only one, thus omitting rest of cases so that we don't bother in the future with undefined behaviour in case I forget about that assumption (I won't process data from another tracks, becasue I do not know nor need to know now about how that exactly works)
     for segment in track.segments[:1]: # same as above
-        for point in segment.points:                                # --------- HERE CHANGE THE RANGE
+        for point in segment.points[:30]:                                # --------- HERE CHANGE THE RANGE
             measures_list.append({
                             "original_data": True, 
                             "latitude_deg": point.latitude,
