@@ -1,3 +1,5 @@
+# this code is a result of me using chatGPT heavily, this shouldn't be considered my job so far - I have not yet had time to understand the library well enough to consider that code "mine"
+
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 from auxiliary import utils
