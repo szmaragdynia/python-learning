@@ -2,6 +2,8 @@ path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i s
 
 log_filename = "log.txt"
 gpx_filename = "kubaORG.gpx"
+gpx_out_file_no_duplicates = "output_gpx_2no-duplicates.gpx"
+gpx_out_file_populated = "output_gpx_3no-missing-values.gpx"
 
 output_filename_step1_csv = gpx_filename[:gpx_filename.index(".")] + "__1data-straight-from-gpx.csv" # add postfix and change extension
 output_filename_step2_csv = gpx_filename[:gpx_filename.index(".")] + "__2no-duplicates.csv" 
