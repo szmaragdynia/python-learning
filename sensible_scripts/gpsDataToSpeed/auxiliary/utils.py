@@ -1,7 +1,8 @@
-
 from auxiliary.constants import path_to_files_dir, log_filename
 import csv
+from datetime import datetime, timedelta
 import atexit
+
 log_file = open(path_to_files_dir + log_filename, 'w')                # this is executed at module import!
 
 def logger(*args_list, **keyword_args_dict):                          # names for future-me
@@ -27,6 +28,13 @@ def saveDictListAsCsv(dictionaries_list, file_name):
 
 def nDigitsToWriteDownIndex(list):
     return len(str(len(list)))
+
+def offsetTime(measures_list, delta_hours = 0, delta_minutes = 0, delta_seconds = 0):
+    for measure in measures_list:
+        # convert time from iso8601 into datetime python module
+        dt = datetime.fromisoformat(measure["datetimeISO8601"])
+        dt = dt + timedelta(hours = delta_hours, minutes = delta_minutes, seconds = delta_seconds) 
+        measure["datetimeISO8601"] = dt.isoformat()
 
 @atexit.register
 def _closing():                      # " This convention is used for declaring private variables, functions, methods and classes in a module. Anything with this convention are ignored in from module import *. "

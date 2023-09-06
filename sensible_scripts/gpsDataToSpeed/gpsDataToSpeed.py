@@ -17,7 +17,6 @@ from datetime import timedelta, datetime
 from auxiliary import utils
 from auxiliary.utils import logger
 from auxiliary import constants
-from auxiliary.constants import tab
 import auxiliary.gpxFunctions as gpxFunctions
 from auxiliary import duplicatesProcessingFunctions as duplicates
 from auxiliary.populatingData import populateMissingData
@@ -26,9 +25,18 @@ from auxiliary.speedCalculation import calculateAndAssign
 time_start = time.perf_counter()
 logger(datetime.fromtimestamp(time.time()))
 
-logger("\n\n~< ------reading and parsing gpx for further use-----") # ~<  is for my defined language in notepad++, which allows me to fold text
+logger("\n\n~< ------READING AND PARSING GPX-----") # ~<  is for my defined language in notepad++, which allows me to fold text
 measures_list = gpxFunctions.makeDictFromGpx(1000)  #input range end or leave empty for all
 utils.saveDictListAsCsv(measures_list, constants.output_filename_step1_csv)
+
+
+
+
+# this is separetely from gpx, because of semantics
+logger("\n\n ------OFFSETTING TIME-----") #
+utils.offsetTime(measures_list, delta_hours=3, delta_minutes=0, delta_seconds = 0) # writing arguments with zero as reminder for future myself that I made these possible to set up
+
+
 
 logger("\n\n~< -----REMOVING DUPLICATES-----")
 duplicates.collect(measures_list)
