@@ -25,6 +25,12 @@ def saveDictListAsCsv(dictionaries_list, file_name):
     dict_writer.writeheader()
     dict_writer.writerows(dictionaries_list)
 
+def readCsv(file_data, file_name):
+    with open(path_to_files_dir + file_name, 'r') as input_file:
+        reader = csv.DictReader(input_file)
+        for row in reader:  # row is a dictionary
+            file_data.append(row)   #list of dictionaries
+
 
 def nDigitsToWriteDownIndex(list):
     return len(str(len(list)))
