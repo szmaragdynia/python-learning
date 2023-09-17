@@ -27,51 +27,51 @@ from auxiliary.graphing import save_speeds_graph
 time_start = time.perf_counter()
 logger(datetime.fromtimestamp(time.time()))
 
-logger("\n\n~< ------READING AND PARSING GPX-----") # ~<  is for my defined language in notepad++, which allows me to fold text
-measures_list = gpxFunctions.makeDictFromGpx()  #input range end or leave empty for all
-utils.saveDictListAsCsv(measures_list, constants.output_filename_step1_csv)
+# logger("\n\n~< ------READING AND PARSING GPX-----") # ~<  is for my defined language in notepad++, which allows me to fold text
+# measures_list = gpxFunctions.makeDictFromGpx()  #input range end or leave empty for all
+# utils.saveDictListAsCsv(measures_list, constants.output_filename_step1_csv)
 
 
 
 
-# this is separetely from gpx, because of semantics
-logger("\n\n ------OFFSETTING TIME-----") #
-utils.offsetTime(measures_list, delta_hours=3, delta_minutes=0, delta_seconds = 0) # writing arguments with zero as reminder for future myself that I made these possible to set up
+# # this is separetely from gpx, because of semantics
+# logger("\n\n ------OFFSETTING TIME-----") #
+# utils.offsetTime(measures_list, delta_hours=3, delta_minutes=0, delta_seconds = 0) # writing arguments with zero as reminder for future myself that I made these possible to set up
 
 
 
-logger("\n\n~< -----REMOVING DUPLICATES-----")
-returned = duplicates.collect(measures_list)
-if returned != "NoEntriesToDelete":
-  duplicates.showIndexesToDelete(measures_list)
-  duplicates.checkIndexesToDeleteAgainstOriginalList(measures_list)   
-  duplicates.remove(measures_list)
-utils.saveDictListAsCsv(measures_list, constants.output_filename_step2_csv)
+# logger("\n\n~< -----REMOVING DUPLICATES-----")
+# returned = duplicates.collect(measures_list)
+# if returned != "NoEntriesToDelete":
+#   duplicates.showIndexesToDelete(measures_list)
+#   duplicates.checkIndexesToDeleteAgainstOriginalList(measures_list)   
+#   duplicates.remove(measures_list)
+# utils.saveDictListAsCsv(measures_list, constants.output_filename_step2_csv)
 
-gpxFunctions.saveDictToGPX(measures_list, constants.gpx_out_file_no_duplicates)
+# gpxFunctions.saveDictToGPX(measures_list, constants.gpx_out_file_no_duplicates)
 
 
-logger("~< -----POPULATING MISSING DATA-----") 
-measures_list_populated = populateMissingData(measures_list)
-utils.saveDictListAsCsv(measures_list_populated, constants.output_filename_step3_csv)
+# logger("~< -----POPULATING MISSING DATA-----") 
+# measures_list_populated = populateMissingData(measures_list)
+# utils.saveDictListAsCsv(measures_list_populated, constants.output_filename_step3_csv)
 
-gpxFunctions.saveDictToGPX(measures_list_populated, constants.gpx_out_file_populated)
+# gpxFunctions.saveDictToGPX(measures_list_populated, constants.gpx_out_file_populated)
                            
            
-logger("~< -----CALCULATING SPEED-----")
-measures_list_populated = calculateAndAssign(measures_list_populated)
+# logger("~< -----CALCULATING SPEED-----")
+# measures_list_populated = calculateAndAssign(measures_list_populated)
 
-utils.saveDictListAsCsv(measures_list_populated, constants.output_filename_step4_csv)
+# utils.saveDictListAsCsv(measures_list_populated, constants.output_filename_step4_csv)
 
-logger("~< -----MAKING PROPER JSONs-----")
-#dividing for AE (max 3hours)
-n_files = (len(measures_list_populated)//10800) + 1 # 10800 is seconds in 3 hours. I truncate and add one.
+# logger("~< -----MAKING PROPER JSONs-----")
+# #dividing for AE (max 3hours)
+# n_files = (len(measures_list_populated)//10800) + 1 # 10800 is seconds in 3 hours. I truncate and add one.
 
-for n in range(1, n_files+1):
-  range_start = 0 + 10800 * (n - 1)
-  range_end = 10799 + 10800 * (n - 1) + 1
-  with open(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json", 'w') as f:
-    json.dump(measures_list_populated[range_start : range_end], f, indent=2)
+# for n in range(1, n_files+1):
+#   range_start = 0 + 10800 * (n - 1)
+#   range_end = 10799 + 10800 * (n - 1) + 1
+#   with open(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json", 'w') as f:
+#     json.dump(measures_list_populated[range_start : range_end], f, indent=2)
 
 logger("~< -----GRAPHING-----")
 # n_files = 4
