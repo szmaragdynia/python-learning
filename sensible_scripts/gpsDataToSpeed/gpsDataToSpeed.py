@@ -12,6 +12,7 @@
 # Todo: do this using pandas. I tried to do that, but it was overkill, I prioretise finishing this, and I already have "classic" logic - no need to waste time for learning pandas right now
 
 import time
+import json
 from datetime import timedelta, datetime
 # ----------------
 from auxiliary import utils
@@ -21,12 +22,13 @@ import auxiliary.gpxFunctions as gpxFunctions
 from auxiliary import duplicatesProcessingFunctions as duplicates
 from auxiliary.populatingData import populateMissingData
 from auxiliary.speedCalculation import calculateAndAssign
+from auxiliary.graphing import save_speeds_graph
 
 time_start = time.perf_counter()
 logger(datetime.fromtimestamp(time.time()))
 
 logger("\n\n~< ------READING AND PARSING GPX-----") # ~<  is for my defined language in notepad++, which allows me to fold text
-measures_list = gpxFunctions.makeDictFromGpx(1000)  #input range end or leave empty for all
+measures_list = gpxFunctions.makeDictFromGpx()  #input range end or leave empty for all
 utils.saveDictListAsCsv(measures_list, constants.output_filename_step1_csv)
 
 
@@ -39,10 +41,11 @@ utils.offsetTime(measures_list, delta_hours=3, delta_minutes=0, delta_seconds = 
 
 
 logger("\n\n~< -----REMOVING DUPLICATES-----")
-duplicates.collect(measures_list)
-duplicates.showIndexesToDelete(measures_list)
-duplicates.checkIndexesToDeleteAgainstOriginalList(measures_list)   
-duplicates.remove(measures_list)
+returned = duplicates.collect(measures_list)
+if returned != "NoEntriesToDelete":
+  duplicates.showIndexesToDelete(measures_list)
+  duplicates.checkIndexesToDeleteAgainstOriginalList(measures_list)   
+  duplicates.remove(measures_list)
 utils.saveDictListAsCsv(measures_list, constants.output_filename_step2_csv)
 
 gpxFunctions.saveDictToGPX(measures_list, constants.gpx_out_file_no_duplicates)
@@ -59,10 +62,27 @@ logger("~< -----CALCULATING SPEED-----")
 measures_list_populated = calculateAndAssign(measures_list_populated)
 
 utils.saveDictListAsCsv(measures_list_populated, constants.output_filename_step4_csv)
-# ------------------------------------------------------------------------
-#with open(path_to_files_dir + output_filename, 'w') as f:
-#  json.dump(measures_list, f, indent=2)
-# divide for AE!
+
+logger("~< -----MAKING PROPER JSONs-----")
+#dividing for AE (max 3hours)
+n_files = (len(measures_list_populated)//10800) + 1 # 10800 is seconds in 3 hours. I truncate and add one.
+
+for n in range(1, n_files+1):
+  range_start = 0 + 10800 * (n - 1)
+  range_end = 10799 + 10800 * (n - 1) + 1
+  with open(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json", 'w') as f:
+    json.dump(measures_list_populated[range_start : range_end], f, indent=2)
+
+logger("~< -----GRAPHING-----")
+# n_files = 4
+# for n in range(1, n_files+1):
+#   save_speeds_graph(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json")
+save_speeds_graph(f"{constants.path_to_files_dir}Przehyba_z_Kuba_rower__5-1of4.json")
+
+
+
+
+
 
 logger("\n\n------------FINISHED------------") 
 time_end = time.perf_counter()

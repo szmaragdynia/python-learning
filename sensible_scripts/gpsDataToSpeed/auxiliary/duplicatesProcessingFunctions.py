@@ -7,44 +7,64 @@ from auxiliary.constants import tab
 indexes_to_delete = []
 digs_del = nDigitsToWriteDownIndex(indexes_to_delete)
 def collect(dictionaries_list):
-  digs_msr = nDigitsToWriteDownIndex(dictionaries_list) #number of digits needed to write down the length of my list
-  logger("~< what is added to deletion list", end = '',stream = "fileOnly")
-  for i in range(len(dictionaries_list)-1):
-      logger("\n{0}{1}/{2:<{3}}".format(tab,len(dictionaries_list) - 1, i, digs_msr*2), end="")
-      if (dictionaries_list[i]["datetimeISO8601"] == dictionaries_list[i+1]["datetimeISO8601"]):                          # if this measure seems to be duplicate of the next one
-          if (None in dictionaries_list[i].values() and not None in dictionaries_list[i+1].values()) or (not None in dictionaries_list[i].values() and None in dictionaries_list[i+1].values()): 
-                                                                                  # only one of two dicts can have some None values.
-              if not any([
-                  dictionaries_list[i]["original_data"] == None,
-                  dictionaries_list[i]["latitude_deg"] == None,
-                  dictionaries_list[i]["longitude_deg"] == None,
-                  dictionaries_list[i]["datetimeISO8601"] == None,
-                  dictionaries_list[i+1]["original_data"] == None,
-                  dictionaries_list[i+1]["latitude_deg"] == None,
-                  dictionaries_list[i+1]["longitude_deg"] == None,
-                  dictionaries_list[i+1]["datetimeISO8601"] == None,
-              ]):                                                                 # the only key that has None value is Elevation (it's missing from the logic above, and we know that only one of two dicts have None as value)
-                  if dictionaries_list[i]["elevation_m"] == None:                          # if the current measure has None in Elevation
-                      indexes_to_delete.append(i)
-                      logger (i,"(i) is added to deletion list.", end='', stream="fileOnly")
-                  elif dictionaries_list[i+1]["elevation_m"] == None:                      # if the current measure has None in Elevation
-                      indexes_to_delete.append(i+1)
-                      logger (i+1,"(i+1) is added to deletion list.", end='', stream="fileOnly")
-                  else:
-                      logger("\n\n\nBug, program will now exit. 1.")
-                      exit()
-              else:
-                  logger("\n\n\n1This case is not handled. Program will now exit (so you can upgrade the code or manually modify the files).")
-                  exit()
-          else:
-              logger("\n\n\n2This case is not handled. Program will now exit (so you can upgrade the code or manually modify the files).")
-              exit()
-  logger("\n~>",stream = "fileOnly")
+    digs_msr = nDigitsToWriteDownIndex(dictionaries_list) #number of digits needed to write down the length of my list
+    logger("~< what is added to deletion list", end = '',stream = "fileOnly")
+    for i in range(len(dictionaries_list)-1):
+        logger("\n{0}{1}/{2:<{3}}".format(tab,len(dictionaries_list) - 1, i, digs_msr*2), end="")
+        if (dictionaries_list[i]["datetimeISO8601"] == dictionaries_list[i+1]["datetimeISO8601"]):                          # if this measure seems to be duplicate of the next one
+            logger('if (dictionaries_list[i]["datetimeISO8601"] == dictionaries_list[i+1]["datetimeISO8601"]):')
+            logger('dictionaries_list[i]["datetimeISO8601"]: ')
+            logger(dictionaries_list[i]["datetimeISO8601"])
+            logger('dictionaries_list[i+1]["datetimeISO8601"]: ')
+            logger(dictionaries_list[i+1]["datetimeISO8601"])
+            logger('dictionaries_list[i]: ')
+            logger(dictionaries_list[i])
+            logger('dictionaries_list[i+1]: ')
+            logger(dictionaries_list[i+1])
+            if (None in dictionaries_list[i].values() and not None in dictionaries_list[i+1].values()) or (not None in dictionaries_list[i].values() and None in dictionaries_list[i+1].values()): 
+                                                                                    # only one of two dicts can have some None values.
+                if not any([
+                    dictionaries_list[i]["original_data"] == None,
+                    dictionaries_list[i]["latitude_deg"] == None,
+                    dictionaries_list[i]["longitude_deg"] == None,
+                    dictionaries_list[i]["datetimeISO8601"] == None,
+                    dictionaries_list[i+1]["original_data"] == None,
+                    dictionaries_list[i+1]["latitude_deg"] == None,
+                    dictionaries_list[i+1]["longitude_deg"] == None,
+                    dictionaries_list[i+1]["datetimeISO8601"] == None,
+                ]):                                                                 # the only key that has None value is Elevation (it's missing from the logic above, and we know that only one of two dicts have None as value)
+                    if dictionaries_list[i]["elevation_m"] == None:                          # if the current measure has None in Elevation
+                        indexes_to_delete.append(i)
+                        logger (i,"(i) is added to deletion list.", end='', stream="fileOnly")
+                    elif dictionaries_list[i+1]["elevation_m"] == None:                      # if the current measure has None in Elevation
+                        indexes_to_delete.append(i+1)
+                        logger (i+1,"(i+1) is added to deletion list.", end='', stream="fileOnly")
+                    else:
+                        logger("\n\n\nBug, program will now exit. 1.")
+                        exit()
+                else:
+                    logger("\n\n\n1This case is not handled. Program will now exit (so you can upgrade the code or manually modify the files).")
+                    exit()
+            else:
+                logger("\n\n\n2This case is for duplicates regarding time, but with no missing value anywhere. Strava (but not zepp life) generated tiny number of these")
+                # I am doing very bad things and I am aware of them. This should not be handled here that way.
+                dictionaries_list[i]["latitude_deg"] = (dictionaries_list[i]["latitude_deg"] + dictionaries_list[i+1]["latitude_deg"])/2
+                dictionaries_list[i]["longitude_deg"] = (dictionaries_list[i]["longitude_deg"] + dictionaries_list[i+1]["longitude_deg"])/2
+                dictionaries_list[i]["elevation_m"] = (dictionaries_list[i]["elevation_m"] + dictionaries_list[i+1]["elevation_m"])/2
+                #what I am doing is basically random :|. Perhaps one elevation is odd? or one lattitude? Nope, not gonna check that, lets do a magic average :| 
+                    # This seems fine becasue number of these duplicates is minimal
+                indexes_to_delete.append(i+1)
+                logger (i+1,"(i+1) is added to deletion list AND .", i, "IS MADE AS AVERAGE OF i AND i+1 !!!", end='', stream="fileOnly")
+
+    logger("\n~>",stream = "fileOnly")
+    if indexes_to_delete == []:
+        logger("There were no indexes added to delete. Your file either have none, or you did not run collect() first. Program will CONTINUE")
+        return "NoEntriesToDelete"
 
 
 def showIndexesToDelete(dictionaries_list):     # behaviour of this function is not entirely logical - it is not obvious that it depends on the collect(). It would be better to implement both collect and showIndextesToDelete as options for a bigger function process, or maybe make a class.
   if indexes_to_delete == []:
-        logger("Run collect() first. Program will now quit")
+        logger("There were no indexes added to delete. Your file either have none, or you did not run collect() first. Program will exit, as this should have been handled")
         exit()
   logger("\n\nList of indexes to delete:\n",tab,indexes_to_delete, sep='')
   logger("\n~< Elevations \"of indexes\" TO DELETE (should ALL BE \"None\"):", stream="fileOnly")

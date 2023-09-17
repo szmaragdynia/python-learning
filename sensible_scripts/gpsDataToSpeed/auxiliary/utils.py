@@ -29,7 +29,7 @@ def readCsv(file_data, file_name):
     with open(path_to_files_dir + file_name, 'r') as input_file:
         reader = csv.DictReader(input_file)
         for row in reader:  # row is a dictionary
-            file_data.append(row)   #list of dictionaries
+            file_data.append(row)   #list of dictionaries column1:data1, column2:data1 ; column1:data2, column2:data2 ; and so on
 
 
 def nDigitsToWriteDownIndex(list):
