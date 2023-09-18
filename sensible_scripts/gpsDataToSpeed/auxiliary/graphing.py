@@ -66,7 +66,7 @@ def save_speeds_graph(path_to_json):
     #fig.set_xticks(x_labels, minor=True)  # Show minor ticks for every value
     x_shown_labels = ['' if i % 2 != 0 else str(x_labels[i]) for i in range(len(x_labels))]
     # Rotate the labels
-    Axis.set_xticklabels(x_shown_labels, fontsize=7, rotation=60, ha='left') 
+    Axis.set_xticklabels(x_shown_labels, fontsize=7, rotation=90) 
     Axis.xaxis.set_tick_params(labelsize=8)
 
     Axis.grid(True, alpha=0.5)
