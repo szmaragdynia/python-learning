@@ -1,6 +1,4 @@
-# offset x labels to the left
-# make it so that I can plot several things
-  # beware of time! time must be in right place
+# TODO: REFACTORIZATION ! ! ! 
 
 
 import matplotlib.pyplot as plt
@@ -11,7 +9,8 @@ import json
 from math import ceil
 import numpy as np
 
-def save_speeds_graph(path_to_json):
+# vvv obsolete vvv
+def save_speeds_graph(path_to_json): 
   with open(path_to_json, 'r') as file:
     json_list_full = json.load(file)
 
@@ -163,6 +162,7 @@ def save_speeds_graphs(*paths_to_jsons):
   
   utils.logger("n_parts:", n_parts)
   utils.logger("n files:", len(json_list_full_list))
+  utils.logger("--------")
   
   # sort so that we can easily calculate time differences
   json_list_full_list_sorted = sorted(json_list_full_list, key=lambda json_list_full: json_list_full[0]["datetimeISO8601"]) # sort by first entry time
@@ -188,33 +188,32 @@ def save_speeds_graphs(*paths_to_jsons):
     range_differences = sorted(range_differences) 
     #utils.logger("after sort",range_differences)
 
+  first_time_here = [True for x in json_list_full_list_sorted]
+  #utils.logger(first_time_here)
   for i in range(n_parts):
     utils.logger("making part:", i+1)
-
     x_figSize = dividor//6 # x size should be 6 times smaller than amout of x data. This looks good for pdf/image.
     Plot, Axis = plt.subplots(figsize=(x_figSize, 6)) 
     plt.subplots_adjust(top=1)
     Axis.set_rasterized(True)
-
     labels_set = False
     for j, json_list_full in enumerate(json_list_full_list_sorted):
       y_speeds = []
-      
-      utils.logger("working on file:", j+1)
-      utils.logger("len json list full sorted:", len(json_list_full_list_sorted))
-
+      utils.logger("\tworking on file:", j+1) # I know I am mixing formatting types. This TODO be done ....in some future.
+      #utils.logger("len json list full sorted:", len(json_list_full_list_sorted))
       if len(json_list_full_list) > 1: # if more than one file path was given
-        if j == 1 and index_of_the_later == 1 and first_time_here:
+        if first_time_here[j] == True:
           range_start = 0 
-          range_end = dividor - range_difference # range_end is not inclusive
-          first_time_here = False
-        elif j == 1 and index_of_the_later == 1 and not first_time_here:
-          range_start = (dividor - range_difference) + dividor*(i-1)
-          range_end = (dividor - range_difference) + dividor*i
-        else:
-          range_start = 0 + dividor * i # 
-          range_end = dividor + dividor * i # range_end is not inclusive
-      
+          range_end = dividor - range_differences[j] # range_end is not inclusive
+          first_time_here[j] = False
+        elif not first_time_here[j]:
+          range_start = (dividor - range_differences[j]) + dividor*(i-1)
+          range_end = (dividor - range_differences[j]) + dividor*i
+      range_start = int(range_start)
+      range_end = int(range_end)
+      utils.logger("range_start",range_start)
+      utils.logger("range_end",range_end)
+      utils.logger('json_list_full[range_end]["datetimeISO8601"]',json_list_full[range_end]["datetimeISO8601"])
       json_list_part = json_list_full[range_start : range_end]
       
       for entry in json_list_part:
@@ -244,6 +243,7 @@ def save_speeds_graphs(*paths_to_jsons):
         x_shown_labels = ['' if i % 2 != 0 else str(x_labels[i]) for i in range(len(x_labels))]
         labels_set = True
       # Rotate the labels
+      #Axis.set_xticks(x_shown_labels)
       Axis.set_xticklabels(x_shown_labels, fontsize=7, rotation=90) 
       Axis.xaxis.set_tick_params(labelsize=8)
       Axis.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=True, labeltop=False, pad=5)
