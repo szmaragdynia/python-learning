@@ -22,7 +22,7 @@ import auxiliary.gpxFunctions as gpxFunctions
 from auxiliary import duplicatesProcessingFunctions as duplicates
 from auxiliary.populatingData import populateMissingData
 from auxiliary.speedCalculation import calculateAndAssign
-from auxiliary.graphing import save_speeds_graph
+import auxiliary.graphing as graphs
 
 time_start = time.perf_counter()
 logger(datetime.fromtimestamp(time.time()))
@@ -73,11 +73,24 @@ logger(datetime.fromtimestamp(time.time()))
 #   with open(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json", 'w') as f:
 #     json.dump(measures_list_populated[range_start : range_end], f, indent=2)
 
-logger("~< -----GRAPHING-----")
-# n_files = 4
+
+#this below is a mess, I am tired and I want it working right now. My apologies to your eyes.
+
+# logger("~< -----GRAPHING-----")
+n_files = 4
 # for n in range(1, n_files+1):
-#   save_speeds_graph(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json")
-save_speeds_graph(f"{constants.path_to_files_dir}Przehyba_z_Kuba_rower__5-1of4.json")
+#   graphs.save_speeds_graph(f"{constants.path_to_files_dir}{constants.output_filename_step5_json}-{n}of{n_files}.json")
+
+
+path_to_kubas = r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\podejscie 2 full automacja\\"
+path_to_mine = r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\podejscie 2 full automacja\\"
+
+for n in range(1, n_files+1):
+  graphs.save_speeds_graphs(f"{path_to_kubas}kubaORG__5-{n}of{n_files}.json", 
+                            f"{path_to_mine}Przehyba_z_Kuba_rower__5-{n}of{n_files}.json")
+
+#graphs.save_speeds_graph(f"{constants.path_to_files_dir}Przehyba_z_Kuba_rower__5-1of4.json")
+#graphs.save_speeds_graphs(f"{constants.path_to_files_dir}Przehyba_z_Kuba_rower__5-1of4.json",)
 
 
 

@@ -536,6 +536,64 @@ def n():
   print("You scored " + str(score) +" out of " + str(len(questions_and_answers)))
 
 # ----------------------------------------------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+
+def o():
+  x_min_global = 0
+  x_max_global= 49
+  x_length_global = x_max_global - x_min_global + 1
+
+  x1_min = 0
+  x1_max = 29
+
+  x2_min = 20
+  x2_max = 49
+
+  x_values = np.linspace(x_min_global + 1, x_max_global + 1 , x_length_global)
+  y1_values = np.linspace(-11, 40, 30)
+  y2_values = np.linspace(40, 10, 30)
+  
+  print("x_values:",x_values)
+  print(f"x_values[:{x1_min} : {x1_max + 1}] : {x_values[x1_min : x1_max + 1]}")
+  print(f"x_values[:{x2_min} : {x2_max + 1}] : {x_values[x2_min : x2_max + 1]}")
+  print("y1_values:",y1_values)
+  print("y2_values:",y2_values)
+  plt.plot(x_values[x1_min : x1_max + 1], y1_values, color="blue", zorder=1)
+  plt.plot(x_values[x2_min : x2_max + 1], y2_values, color="red", zorder=2)
+
+  plt.show()
+
+# ----------------------------------------------------------------
+
+def p():
+  def _get_color(value):
+    if value == 1:
+      return "blue"
+    elif value == 2:
+      return "green"
+    elif value == 3:
+       return "red"
+  
+  for i in range(4):
+    x_values = np.linspace(1,100*(i+1),100)
+    y_values = np.linspace(1, 50*(i+1), 100)
+    plt.plot(x_values, y_values, color=_get_color(i), zorder=i+1)
+  
+  plt.show()
+
+# ----------------------------------------------------------------
+def r():
+  to_sort = [[{'a': 5, 'b': 3}, {'a': 6, 'b': 3}, {'a': 7, 'b': 3}, {'a': 8, 'b': 3}, {'a': 9, 'b': 3}],
+            [{'a': 1, 'b': 3}, {'a': 2, 'b': 3}, {'a': 3, 'b': 3}, {'a': 4, 'b': 3}, {'a': 5, 'b': 3}],
+            [{'a': 3, 'b': 3}, {'a': 4, 'b': 3}, {'a': 5, 'b': 3}, {'a': 6, 'b': 3}, {'a': 7, 'b': 3}],
+            ]
+  sortedd = sorted(to_sort, key=lambda stuff: stuff[0]['a'])
+  print(to_sort)
+  print(sortedd)
+
+
+# ----------------------------------------------------------------
 # ----------------------------------------------------------------
 code_fragments = {
     'a': a,
@@ -559,7 +617,10 @@ code_fragments = {
     'k_6': k_6,
     'l': l,
     'm': m,
-    'n': n
+    'n': n,
+    'o': o,
+    'p': p,
+    'r': r,
   }
 # ----------------------------------------------------------------
 # Whenever adding new code above, you probably do not care about code below

@@ -2,8 +2,8 @@ from auxiliary.utils import logger, nDigitsToWriteDownIndex
 from auxiliary.constants import tab
 
 
-#this is somewhat (very?) ugly - espacially the logic for checking keys and values. I just wanted to finish merging, tidying will be the next step (should that step occur)
 
+#this is somewhat (very?) ugly - espacially the logic for checking keys and values. I just wanted to finish merging, tidying will be the next step (should that step occur)
 indexes_to_delete = []
 digs_del = nDigitsToWriteDownIndex(indexes_to_delete)
 def collect(dictionaries_list):
@@ -12,26 +12,18 @@ def collect(dictionaries_list):
     for i in range(len(dictionaries_list)-1):
         logger("\n{0}{1}/{2:<{3}}".format(tab,len(dictionaries_list) - 1, i, digs_msr*2), end="")
         if (dictionaries_list[i]["datetimeISO8601"] == dictionaries_list[i+1]["datetimeISO8601"]):                          # if this measure seems to be duplicate of the next one
-            logger('if (dictionaries_list[i]["datetimeISO8601"] == dictionaries_list[i+1]["datetimeISO8601"]):')
-            logger('dictionaries_list[i]["datetimeISO8601"]: ')
-            logger(dictionaries_list[i]["datetimeISO8601"])
-            logger('dictionaries_list[i+1]["datetimeISO8601"]: ')
-            logger(dictionaries_list[i+1]["datetimeISO8601"])
-            logger('dictionaries_list[i]: ')
-            logger(dictionaries_list[i])
-            logger('dictionaries_list[i+1]: ')
-            logger(dictionaries_list[i+1])
+
             if (None in dictionaries_list[i].values() and not None in dictionaries_list[i+1].values()) or (not None in dictionaries_list[i].values() and None in dictionaries_list[i+1].values()): 
                                                                                     # only one of two dicts can have some None values.
                 if not any([
-                    dictionaries_list[i]["original_data"] == None,
-                    dictionaries_list[i]["latitude_deg"] == None,
-                    dictionaries_list[i]["longitude_deg"] == None,
-                    dictionaries_list[i]["datetimeISO8601"] == None,
-                    dictionaries_list[i+1]["original_data"] == None,
-                    dictionaries_list[i+1]["latitude_deg"] == None,
-                    dictionaries_list[i+1]["longitude_deg"] == None,
-                    dictionaries_list[i+1]["datetimeISO8601"] == None,
+                    # dictionaries_list[i]["original_data"] == None,
+                    # dictionaries_list[i]["latitude_deg"] == None,
+                    # dictionaries_list[i]["longitude_deg"] == None,
+                    # dictionaries_list[i]["datetimeISO8601"] == None,
+                    # dictionaries_list[i+1]["original_data"] == None,
+                    # dictionaries_list[i+1]["latitude_deg"] == None,
+                    # dictionaries_list[i+1]["longitude_deg"] == None,
+                    # dictionaries_list[i+1]["datetimeISO8601"] == None,
                 ]):                                                                 # the only key that has None value is Elevation (it's missing from the logic above, and we know that only one of two dicts have None as value)
                     if dictionaries_list[i]["elevation_m"] == None:                          # if the current measure has None in Elevation
                         indexes_to_delete.append(i)

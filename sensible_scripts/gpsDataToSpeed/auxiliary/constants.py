@@ -1,9 +1,9 @@
-#path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\podejscie 2 full automacja\\"
-path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\podejscie 2 full automacja\\"
+path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\kuby\podejscie 2 full automacja\\"
+#path_to_files_dir=  r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\podejscie 2 full automacja\\"
 
 log_filename = "log.txt"
-#gpx_filename = "kubaORG.gpx"
-gpx_filename = "Przehyba_z_Kuba_rower.gpx"
+gpx_filename = "kubaORG.gpx"
+#gpx_filename = "Przehyba_z_Kuba_rower.gpx"
 gpx_out_file_no_duplicates = "output_gpx_2no-duplicates.gpx"
 gpx_out_file_populated = "output_gpx_3no-missing-values.gpx"
 
