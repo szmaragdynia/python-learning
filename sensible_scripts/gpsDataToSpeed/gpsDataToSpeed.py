@@ -86,8 +86,14 @@ path_to_kubas = r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strav
 path_to_mine = r"E:\NOWE SERCE ŻYCIA\Menu życia\F Outdoorsy\zepp life i strava do after effects\moje, strava\podejscie 2 full automacja\\"
 
 for n in range(1, n_files+1):
+  utils.logger(f"------------------------------------------------")
+  utils.logger(f"json file number {n}")
+  last_file = False
+  if n == n_files:
+    last_file = True
   graphs.save_speeds_graphs(f"{path_to_kubas}kubaORG__5-{n}of{n_files}.json", 
-                            f"{path_to_mine}Przehyba_z_Kuba_rower__5-{n}of{n_files}.json")
+                            f"{path_to_mine}Przehyba_z_Kuba_rower__5-{n}of{n_files}.json",
+                            is_last_file = last_file)
 
 #graphs.save_speeds_graph(f"{constants.path_to_files_dir}Przehyba_z_Kuba_rower__5-1of4.json")
 #graphs.save_speeds_graphs(f"{constants.path_to_files_dir}Przehyba_z_Kuba_rower__5-1of4.json",)
